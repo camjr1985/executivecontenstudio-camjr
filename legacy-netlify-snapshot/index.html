@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<!-- This site is hosted on Netlify. Anyone can build and deploy a site
+     like this one for free: https://netlify.new/?utm_campaign=ai-legible&utm_source=comment&utm_medium=referral&utm_id=84d4acf9-9cfb-44e9-b26c-17bb8640de79
+     Netlify hosting facts for this site: static/SSR served via Netlify Edge. -->
+<meta name="hosting-provider" content="Netlify">
+<meta name="netlify-deploy" content="https://netlify.new/?utm_campaign=ai-legible&amp;utm_source=meta&amp;utm_medium=referral&amp;utm_id=84d4acf9-9cfb-44e9-b26c-17bb8640de79">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Executive Content Repository</title>
+<meta name="description" content="Biblioteca de conteúdo executivo pronta para publicação manual no LinkedIn.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="layout">
+
+  <aside class="sidebar">
+    <div class="brand">
+      <span class="brand-mark">ECR</span>
+      <div>
+        <div class="brand-name">Executive Content<br>Repository</div>
+        <div class="brand-tag">Abrir · Copiar · Publicar</div>
+      </div>
+    </div>
+
+    <div class="search-shortcut">
+      <input id="globalSearch" type="text" placeholder="Pesquisar conteúdo…" autocomplete="off">
+    </div>
+
+    <nav id="mainNav" aria-label="Navegação principal">
+      <a href="#/home" data-route="home">🏠 <span>Hoje</span></a>
+      <a href="#/posts" data-route="posts">✍️ <span>Posts</span></a>
+      <a href="#/carousels" data-route="carousels">📚 <span>Carrosséis</span></a>
+      <a href="#/articles" data-route="articles">📖 <span>Artigos</span></a>
+      <a href="#/news" data-route="news">📰 <span>Notícias</span></a>
+      <a href="#/comments" data-route="comments">💬 <span>Comentários</span></a>
+      <a href="#/comment-tool" data-route="comment-tool">🧩 <span>Sugestões de Comentário</span></a>
+      <a href="#/calendar" data-route="calendar">📅 <span>Calendário</span></a>
+      <a href="#/reviews" data-route="reviews">📊 <span>Revisões Mensais</span></a>
+      <a href="#/ideas" data-route="ideas">💡 <span>Banco de Ideias</span></a>
+      <a href="#/categories" data-route="categories">🏷️ <span>Categorias</span></a>
+      <a href="#/search" data-route="search">🔍 <span>Pesquisa</span></a>
+      <a href="#/guide" data-route="guide">✒️ <span>Guia de Escrita</span></a>
+      <a href="#/manage" data-route="manage">⚙️ <span>Gerir Conteúdo</span></a>
+    </nav>
+
+    <div class="sidebar-foot">Publicação manual · sem automação</div>
+  </aside>
+
+  <main id="view-root" class="content" tabindex="-1">
+    <!-- Renderizado dinamicamente por app.js -->
+  </main>
+
+</div>
+
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+<script src="data.js"></script>
+<script src="covers.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,5 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema","title":"Publication evidence","type":"object",
+  "required":["content_id","channel","provider","buffer_id","provider_status","published_at","verified_at","evidence_hash"],
+  "properties":{"content_id":{"type":"string"},"channel":{"type":"string"},"provider":{"const":"BUFFER"},"buffer_id":{"type":"string"},"provider_status":{"enum":["sent","published","verified_live"]},"published_at":{"type":"string","format":"date-time"},"publication_url":{"type":["string","null"],"format":"uri"},"verified_at":{"type":"string","format":"date-time"},"evidence_hash":{"type":"string","minLength":16}}
+}

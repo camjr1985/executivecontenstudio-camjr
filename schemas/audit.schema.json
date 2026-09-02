@@ -1,0 +1,5 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema","title":"Append-only calendar audit event","type":"object",
+  "required":["audit_id","content_id","operation","previous_status","new_status","timestamp","source","actor","repository_revision","idempotency_key"],
+  "properties":{"audit_id":{"type":"string"},"content_id":{"type":"string"},"operation":{"type":"string"},"previous_status":{"type":["string","null"]},"new_status":{"type":"string"},"timestamp":{"type":"string","format":"date-time"},"source":{"enum":["OWNER","CONTENT_OS","BUFFER_RECONCILIATION","SYSTEM"]},"actor":{"type":"string"},"buffer_id":{"type":["string","null"]},"publication_url":{"type":["string","null"]},"evidence_hash":{"type":["string","null"]},"repository_revision":{"type":"string"},"idempotency_key":{"type":"string"}}
+}

@@ -1,0 +1,638 @@
+{
+  "schema_version": "1.0.0",
+  "dry_run_only": true,
+  "records": [
+    {
+      "content_id": "LI-20260901-001",
+      "channel": "LinkedIn",
+      "format": "Post",
+      "buffer_classification": "LINKEDIN_POST",
+      "buffer_id": null,
+      "mapping_status": "NOT_MAPPED"
+    },
+    {
+      "content_id": "POST-009",
+      "channel": "LinkedIn",
+      "format": "Post",
+      "buffer_classification": "LINKEDIN_POST",
+      "buffer_id": null,
+      "mapping_status": "NOT_MAPPED"
+    },
+    {
+      "content_id": "CAR-003",
+      "channel": "LinkedIn",
+      "format": "Carousel",
+      "buffer_classification": "LINKEDIN_DOCUMENT",
+      "buffer_id": null,
+      "mapping_status": "NOT_MAPPED"
+    },
+    {
+      "content_id": "LI-20260905-001",
+      "channel": "LinkedIn",
+      "format": "Post",
+      "buffer_classification": "LINKEDIN_POST",
+      "buffer_id": null,
+      "mapping_status": "NOT_MAPPED"
+    },
+    {
+      "content_id": "POST-010",
+      "channel": "LinkedIn",
+      "format": "Post",
+      "buffer_classification": "LINKEDIN_POST",
+      "buffer_id": null,
+      "mapping_status": "NOT_MAPPED"
+    },
+    {
+      "content_id": "POST-011",
+      "channel": "LinkedIn",
+      "format": "Post",
+      "buffer_classification": "LINKEDIN_POST",
+      "buffer_id": null,
+      "mapping_status": "NOT_MAPPED"
+    },
+    {
+      "content_id": "POST-034",
+      "channel": "LinkedIn",
+      "format": "Post",
+      "buffer_classification": "LINKEDIN_POST",
+      "buffer_id": null,
+      "mapping_status": "NOT_MAPPED"
+    },
+    {
+      "content_id": "IG-STORY-20260911-001",
+      "channel": "Instagram",
+      "format": "Story",
+      "buffer_classification": "INSTAGRAM_STORY",
+      "buffer_id": null,
+      "mapping_status": "NOT_MAPPED"
+    },
+    {
+      "content_id": "LI-20260912-001",
+      "channel": "LinkedIn",
+      "format": "Post",
+      "buffer_classification": "LINKEDIN_POST",
+      "buffer_id": null,
+      "mapping_status": "NOT_MAPPED"
+    },
+    {
+      "content_id": "POST-038",
+      "channel": "LinkedIn",
+      "format": "Post",
+      "buffer_classification": "LINKEDIN_POST",
+      "buffer_id": null,
+      "mapping_status": "NOT_MAPPED"
+    },
+    {
+      "content_id": "IG-STORY-20260913-001",
+      "channel": "Instagram",
+      "format": "Story",
+      "buffer_classification": "INSTAGRAM_STORY",
+      "buffer_id": null,
+      "mapping_status": "NOT_MAPPED"
+    },
+    {
+      "content_id": "POST-012",
+      "channel": "LinkedIn",
+      "format": "Post",
+      "buffer_classification": "LINKEDIN_POST",
+      "buffer_id": null,
+      "mapping_status": "NOT_MAPPED"
+    },
+    {
+      "content_id": "LIVE-20260914-001",
+      "channel": "Live",
+      "format": "Live Event",
+      "buffer_classification": "MANUAL_LIVE",
+      "buffer_id": null,
+      "mapping_status": "NOT_MAPPED"
+    },
+    {
+      "content_id": "IG-STORY-20260914-001",
+      "channel": "Instagram",
+      "format": "Story",
+      "buffer_classification": "INSTAGRAM_STORY",
+      "buffer_id": null,
+      "mapping_status": "NOT_MAPPED"
+    },
+    {
+      "content_id": "IG-REEL-20260914-001",
+      "channel": "Instagram",
+      "format": "Reel",
+      "buffer_classification": "INSTAGRAM_REEL",
+      "buffer_id": null,
+      "mapping_status": "NOT_MAPPED"
+    },
+    {
+      "content_id": "IG-REEL-20260915-001",
+      "channel": "Instagram",
+      "format": "Reel",
+      "buffer_classification": "INSTAGRAM_REEL",
+      "buffer_id": null,
+      "mapping_status": "NOT_MAPPED"
+    },
+    {
+      "content_id": "CAR-004",
+      "channel": "LinkedIn",
+      "format": "Carousel",
+      "buffer_classification": "LINKEDIN_DOCUMENT",
+      "buffer_id": null,
+      "mapping_status": "NOT_MAPPED"
+    },
+    {
+      "content_id": "IG-FEED-20260918-001",
+      "channel": "Instagram",
+      "format": "Feed",
+      "buffer_classification": "INSTAGRAM_FEED",
+      "buffer_id": null,
+      "mapping_status": "NOT_MAPPED"
+    },
+    {
+      "content_id": "ART-007",
+      "channel": "LinkedIn",
+      "format": "Article",
+      "buffer_classification": "MANUAL_LINKEDIN_ARTICLE",
+      "buffer_id": null,
+      "mapping_status": "NOT_MAPPED"
+    },
+    {
+      "content_id": "POST-041",
+      "channel": "LinkedIn",
+      "format": "Post",
+      "buffer_classification": "LINKEDIN_POST",
+      "buffer_id": null,
+      "mapping_status": "NOT_MAPPED"
+    },
+    {
+      "content_id": "IG-STORY-20260920-001",
+      "channel": "Instagram",
+      "format": "Story",
+      "buffer_classification": "INSTAGRAM_STORY",
+      "buffer_id": null,
+      "mapping_status": "NOT_MAPPED"
+    },
+    {
+      "content_id": "POST-013",
+      "channel": "LinkedIn",
+      "format": "Post",
+      "buffer_classification": "LINKEDIN_POST",
+      "buffer_id": null,
+      "mapping_status": "NOT_MAPPED"
+    },
+    {
+      "content_id": "POST-014",
+      "channel": "LinkedIn",
+      "format": "Post",
+      "buffer_classification": "LINKEDIN_POST",
+      "buffer_id": null,
+      "mapping_status": "NOT_MAPPED"
+    },
+    {
+      "content_id": "IG-FEED-20260923-001",
+      "channel": "Instagram",
+      "format": "Feed",
+      "buffer_classification": "INSTAGRAM_FEED",
+      "buffer_id": null,
+      "mapping_status": "NOT_MAPPED"
+    },
+    {
+      "content_id": "POST-046",
+      "channel": "LinkedIn",
+      "format": "Post",
+      "buffer_classification": "LINKEDIN_POST",
+      "buffer_id": null,
+      "mapping_status": "NOT_MAPPED"
+    },
+    {
+      "content_id": "ART-003",
+      "channel": "LinkedIn",
+      "format": "Article",
+      "buffer_classification": "MANUAL_LINKEDIN_ARTICLE",
+      "buffer_id": null,
+      "mapping_status": "NOT_MAPPED"
+    },
+    {
+      "content_id": "IG-REEL-20260925-001",
+      "channel": "Instagram",
+      "format": "Reel",
+      "buffer_classification": "INSTAGRAM_REEL",
+      "buffer_id": null,
+      "mapping_status": "NOT_MAPPED"
+    },
+    {
+      "content_id": "IG-STORY-20260927-001",
+      "channel": "Instagram",
+      "format": "Story",
+      "buffer_classification": "INSTAGRAM_STORY",
+      "buffer_id": null,
+      "mapping_status": "NOT_MAPPED"
+    },
+    {
+      "content_id": "IG-FEED-20260928-001",
+      "channel": "Instagram",
+      "format": "Feed",
+      "buffer_classification": "INSTAGRAM_FEED",
+      "buffer_id": null,
+      "mapping_status": "NOT_MAPPED"
+    },
+    {
+      "content_id": "ART-009",
+      "channel": "LinkedIn",
+      "format": "Article",
+      "buffer_classification": "MANUAL_LINKEDIN_ARTICLE",
+      "buffer_id": null,
+      "mapping_status": "NOT_MAPPED"
+    },
+    {
+      "content_id": "POST-047",
+      "channel": "LinkedIn",
+      "format": "Post",
+      "buffer_classification": "LINKEDIN_POST",
+      "buffer_id": null,
+      "mapping_status": "NOT_MAPPED"
+    },
+    {
+      "content_id": "NEWS-003",
+      "channel": "LinkedIn",
+      "format": "News",
+      "buffer_classification": "MANUAL_REVIEW",
+      "buffer_id": null,
+      "mapping_status": "NOT_MAPPED"
+    },
+    {
+      "content_id": "REV-002",
+      "channel": "LinkedIn",
+      "format": "Review",
+      "buffer_classification": "UNSUPPORTED_REVIEW_REQUIRED",
+      "buffer_id": null,
+      "mapping_status": "NOT_MAPPED"
+    },
+    {
+      "content_id": "POST-015",
+      "channel": "LinkedIn",
+      "format": "Post",
+      "buffer_classification": "LINKEDIN_POST",
+      "buffer_id": null,
+      "mapping_status": "NOT_MAPPED"
+    },
+    {
+      "content_id": "LI-20261003-001",
+      "channel": "LinkedIn",
+      "format": "Post",
+      "buffer_classification": "LINKEDIN_POST",
+      "buffer_id": null,
+      "mapping_status": "NOT_MAPPED"
+    },
+    {
+      "content_id": "POST-016",
+      "channel": "LinkedIn",
+      "format": "Post",
+      "buffer_classification": "LINKEDIN_POST",
+      "buffer_id": null,
+      "mapping_status": "NOT_MAPPED"
+    },
+    {
+      "content_id": "LI-20261009-001",
+      "channel": "LinkedIn",
+      "format": "Post",
+      "buffer_classification": "LINKEDIN_POST",
+      "buffer_id": null,
+      "mapping_status": "NOT_MAPPED"
+    },
+    {
+      "content_id": "IG-FEED-20261012-001",
+      "channel": "Instagram",
+      "format": "Feed",
+      "buffer_classification": "INSTAGRAM_FEED",
+      "buffer_id": null,
+      "mapping_status": "NOT_MAPPED"
+    },
+    {
+      "content_id": "CAR-005",
+      "channel": "LinkedIn",
+      "format": "Carousel",
+      "buffer_classification": "LINKEDIN_DOCUMENT",
+      "buffer_id": null,
+      "mapping_status": "NOT_MAPPED"
+    },
+    {
+      "content_id": "POST-017",
+      "channel": "LinkedIn",
+      "format": "Post",
+      "buffer_classification": "LINKEDIN_POST",
+      "buffer_id": null,
+      "mapping_status": "NOT_MAPPED"
+    },
+    {
+      "content_id": "IG-REEL-20261013-001",
+      "channel": "Instagram",
+      "format": "Reel",
+      "buffer_classification": "INSTAGRAM_REEL",
+      "buffer_id": null,
+      "mapping_status": "NOT_MAPPED"
+    },
+    {
+      "content_id": "LI-20261015-001",
+      "channel": "LinkedIn",
+      "format": "Post",
+      "buffer_classification": "LINKEDIN_POST",
+      "buffer_id": null,
+      "mapping_status": "NOT_MAPPED"
+    },
+    {
+      "content_id": "LI-20261017-001",
+      "channel": "LinkedIn",
+      "format": "Post",
+      "buffer_classification": "LINKEDIN_POST",
+      "buffer_id": null,
+      "mapping_status": "NOT_MAPPED"
+    },
+    {
+      "content_id": "LI-20261020-001",
+      "channel": "LinkedIn",
+      "format": "Post",
+      "buffer_classification": "LINKEDIN_POST",
+      "buffer_id": null,
+      "mapping_status": "NOT_MAPPED"
+    },
+    {
+      "content_id": "IG-STORY-20261020-001",
+      "channel": "Instagram",
+      "format": "Story",
+      "buffer_classification": "INSTAGRAM_STORY",
+      "buffer_id": null,
+      "mapping_status": "NOT_MAPPED"
+    },
+    {
+      "content_id": "POST-018",
+      "channel": "LinkedIn",
+      "format": "Post",
+      "buffer_classification": "LINKEDIN_POST",
+      "buffer_id": null,
+      "mapping_status": "NOT_MAPPED"
+    },
+    {
+      "content_id": "IG-FEED-20261023-001",
+      "channel": "Instagram",
+      "format": "Feed",
+      "buffer_classification": "INSTAGRAM_FEED",
+      "buffer_id": null,
+      "mapping_status": "NOT_MAPPED"
+    },
+    {
+      "content_id": "ART-004",
+      "channel": "LinkedIn",
+      "format": "Article",
+      "buffer_classification": "MANUAL_LINKEDIN_ARTICLE",
+      "buffer_id": null,
+      "mapping_status": "NOT_MAPPED"
+    },
+    {
+      "content_id": "LI-20261027-001",
+      "channel": "LinkedIn",
+      "format": "Post",
+      "buffer_classification": "LINKEDIN_POST",
+      "buffer_id": null,
+      "mapping_status": "NOT_MAPPED"
+    },
+    {
+      "content_id": "POST-019",
+      "channel": "LinkedIn",
+      "format": "Post",
+      "buffer_classification": "LINKEDIN_POST",
+      "buffer_id": null,
+      "mapping_status": "NOT_MAPPED"
+    },
+    {
+      "content_id": "REV-003",
+      "channel": "LinkedIn",
+      "format": "Review",
+      "buffer_classification": "UNSUPPORTED_REVIEW_REQUIRED",
+      "buffer_id": null,
+      "mapping_status": "NOT_MAPPED"
+    },
+    {
+      "content_id": "POST-020",
+      "channel": "LinkedIn",
+      "format": "Post",
+      "buffer_classification": "LINKEDIN_POST",
+      "buffer_id": null,
+      "mapping_status": "NOT_MAPPED"
+    },
+    {
+      "content_id": "LI-20261105-001",
+      "channel": "LinkedIn",
+      "format": "Post",
+      "buffer_classification": "LINKEDIN_POST",
+      "buffer_id": null,
+      "mapping_status": "NOT_MAPPED"
+    },
+    {
+      "content_id": "IG-FEED-20261109-001",
+      "channel": "Instagram",
+      "format": "Feed",
+      "buffer_classification": "INSTAGRAM_FEED",
+      "buffer_id": null,
+      "mapping_status": "NOT_MAPPED"
+    },
+    {
+      "content_id": "CAR-006",
+      "channel": "LinkedIn",
+      "format": "Carousel",
+      "buffer_classification": "LINKEDIN_DOCUMENT",
+      "buffer_id": null,
+      "mapping_status": "NOT_MAPPED"
+    },
+    {
+      "content_id": "LI-20261110-001",
+      "channel": "LinkedIn",
+      "format": "Post",
+      "buffer_classification": "LINKEDIN_POST",
+      "buffer_id": null,
+      "mapping_status": "NOT_MAPPED"
+    },
+    {
+      "content_id": "POST-021",
+      "channel": "LinkedIn",
+      "format": "Post",
+      "buffer_classification": "LINKEDIN_POST",
+      "buffer_id": null,
+      "mapping_status": "NOT_MAPPED"
+    },
+    {
+      "content_id": "LI-20261114-001",
+      "channel": "LinkedIn",
+      "format": "Post",
+      "buffer_classification": "LINKEDIN_POST",
+      "buffer_id": null,
+      "mapping_status": "NOT_MAPPED"
+    },
+    {
+      "content_id": "IG-STORY-20261114-001",
+      "channel": "Instagram",
+      "format": "Story",
+      "buffer_classification": "INSTAGRAM_STORY",
+      "buffer_id": null,
+      "mapping_status": "NOT_MAPPED"
+    },
+    {
+      "content_id": "POST-022",
+      "channel": "LinkedIn",
+      "format": "Post",
+      "buffer_classification": "LINKEDIN_POST",
+      "buffer_id": null,
+      "mapping_status": "NOT_MAPPED"
+    },
+    {
+      "content_id": "ART-005",
+      "channel": "LinkedIn",
+      "format": "Article",
+      "buffer_classification": "MANUAL_LINKEDIN_ARTICLE",
+      "buffer_id": null,
+      "mapping_status": "NOT_MAPPED"
+    },
+    {
+      "content_id": "IG-REEL-20261120-001",
+      "channel": "Instagram",
+      "format": "Reel",
+      "buffer_classification": "INSTAGRAM_REEL",
+      "buffer_id": null,
+      "mapping_status": "NOT_MAPPED"
+    },
+    {
+      "content_id": "LI-20261121-001",
+      "channel": "LinkedIn",
+      "format": "Post",
+      "buffer_classification": "LINKEDIN_POST",
+      "buffer_id": null,
+      "mapping_status": "NOT_MAPPED"
+    },
+    {
+      "content_id": "POST-023",
+      "channel": "LinkedIn",
+      "format": "Post",
+      "buffer_classification": "LINKEDIN_POST",
+      "buffer_id": null,
+      "mapping_status": "NOT_MAPPED"
+    },
+    {
+      "content_id": "NEWS-004",
+      "channel": "LinkedIn",
+      "format": "News",
+      "buffer_classification": "MANUAL_REVIEW",
+      "buffer_id": null,
+      "mapping_status": "NOT_MAPPED"
+    },
+    {
+      "content_id": "LI-20261127-001",
+      "channel": "LinkedIn",
+      "format": "Post",
+      "buffer_classification": "LINKEDIN_POST",
+      "buffer_id": null,
+      "mapping_status": "NOT_MAPPED"
+    },
+    {
+      "content_id": "IG-STORY-20261127-001",
+      "channel": "Instagram",
+      "format": "Story",
+      "buffer_classification": "INSTAGRAM_STORY",
+      "buffer_id": null,
+      "mapping_status": "NOT_MAPPED"
+    },
+    {
+      "content_id": "REV-004",
+      "channel": "LinkedIn",
+      "format": "Review",
+      "buffer_classification": "UNSUPPORTED_REVIEW_REQUIRED",
+      "buffer_id": null,
+      "mapping_status": "NOT_MAPPED"
+    },
+    {
+      "content_id": "POST-024",
+      "channel": "LinkedIn",
+      "format": "Post",
+      "buffer_classification": "LINKEDIN_POST",
+      "buffer_id": null,
+      "mapping_status": "NOT_MAPPED"
+    },
+    {
+      "content_id": "IG-FEED-20261207-001",
+      "channel": "Instagram",
+      "format": "Feed",
+      "buffer_classification": "INSTAGRAM_FEED",
+      "buffer_id": null,
+      "mapping_status": "NOT_MAPPED"
+    },
+    {
+      "content_id": "CAR-007",
+      "channel": "LinkedIn",
+      "format": "Carousel",
+      "buffer_classification": "LINKEDIN_DOCUMENT",
+      "buffer_id": null,
+      "mapping_status": "NOT_MAPPED"
+    },
+    {
+      "content_id": "POST-025",
+      "channel": "LinkedIn",
+      "format": "Post",
+      "buffer_classification": "LINKEDIN_POST",
+      "buffer_id": null,
+      "mapping_status": "NOT_MAPPED"
+    },
+    {
+      "content_id": "LI-20261211-001",
+      "channel": "LinkedIn",
+      "format": "Post",
+      "buffer_classification": "LINKEDIN_POST",
+      "buffer_id": null,
+      "mapping_status": "NOT_MAPPED"
+    },
+    {
+      "content_id": "POST-026",
+      "channel": "LinkedIn",
+      "format": "Post",
+      "buffer_classification": "LINKEDIN_POST",
+      "buffer_id": null,
+      "mapping_status": "NOT_MAPPED"
+    },
+    {
+      "content_id": "ART-006",
+      "channel": "LinkedIn",
+      "format": "Article",
+      "buffer_classification": "MANUAL_LINKEDIN_ARTICLE",
+      "buffer_id": null,
+      "mapping_status": "NOT_MAPPED"
+    },
+    {
+      "content_id": "LI-20261222-001",
+      "channel": "LinkedIn",
+      "format": "Post",
+      "buffer_classification": "LINKEDIN_POST",
+      "buffer_id": null,
+      "mapping_status": "NOT_MAPPED"
+    },
+    {
+      "content_id": "POST-027",
+      "channel": "LinkedIn",
+      "format": "Post",
+      "buffer_classification": "LINKEDIN_POST",
+      "buffer_id": null,
+      "mapping_status": "NOT_MAPPED"
+    },
+    {
+      "content_id": "REV-005",
+      "channel": "LinkedIn",
+      "format": "Review",
+      "buffer_classification": "UNSUPPORTED_REVIEW_REQUIRED",
+      "buffer_id": null,
+      "mapping_status": "NOT_MAPPED"
+    },
+    {
+      "content_id": "IG-STORY-20261231-001",
+      "channel": "Instagram",
+      "format": "Story",
+      "buffer_classification": "INSTAGRAM_STORY",
+      "buffer_id": null,
+      "mapping_status": "NOT_MAPPED"
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"https://camjr1985.github.io/executivecontenstudio-camjr/schemas/calendar.schema.json",
+  "title":"Executive Content Studio canonical calendar",
+  "type":"object","required":["schema_version","row_count","records"],
+  "properties":{"schema_version":{"type":"string"},"row_count":{"const":79},"records":{"type":"array","items":{"$ref":"#/$defs/record"}}},
+  "$defs":{"record":{"type":"object","required":["content_id","date","time","timezone","channel","format","title","status","revision"],"properties":{"content_id":{"type":"string","minLength":1},"date":{"type":"string","format":"date"},"time":{"type":"string"},"timezone":{"const":"Europe/Lisbon"},"channel":{"enum":["LinkedIn","Instagram","Live"]},"format":{"type":"string"},"title":{"type":"string","minLength":1},"status":{"type":"string"},"owner_approval_required":{"type":"boolean"},"revision":{"type":"integer","minimum":1}}}}
+}
