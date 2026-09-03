@@ -54,6 +54,9 @@ addLibraryRecords('articles', LEGACY.articles, (a) => ({
   title: a.title, theme: a.theme, read_time: a.readTime, body: a.body, hashtags: a.hashtags,
   image_prompt: a.imagePrompt, legacy_status: a.status
 }));
+addLibraryRecords('news', LEGACY.news, (n) => ({
+  title: n.title, source: n.source, url: n.url || null, summary: n.summary, repost: n.repost, hashtags: n.hashtags
+}));
 
 const libraryIds = new Set(library.map(r => r.content_id));
 // Only Post/Carousel/Article-format EXISTING records are expected to carry full
@@ -61,7 +64,7 @@ const libraryIds = new Set(library.map(r => r.content_id));
 // stay reserve-only instead, so they're excluded from this check.
 const copyBearingIds = new Set(
   calendar.records
-    .filter(r => r.existing_or_new === 'EXISTING' && ['Post', 'Carousel', 'Article'].includes(r.format))
+    .filter(r => r.existing_or_new === 'EXISTING' && ['Post', 'Carousel', 'Article', 'News'].includes(r.format))
     .map(r => r.content_id)
 );
 const missing = [...copyBearingIds].filter(id => !libraryIds.has(id));

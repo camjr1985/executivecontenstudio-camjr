@@ -14,8 +14,8 @@ test('calendar.json baseline is untouched by content migration', () => {
   assert.deepEqual(byChannel, { LinkedIn: 57, Instagram: 21, Live: 1 });
 });
 
-test('content_library only covers EXISTING Post/Carousel/Article records, every one migrated', () => {
-  const expected = calendar.records.filter(r => r.existing_or_new === 'EXISTING' && ['Post', 'Carousel', 'Article'].includes(r.format));
+test('content_library only covers EXISTING Post/Carousel/Article/News records, every one migrated', () => {
+  const expected = calendar.records.filter(r => r.existing_or_new === 'EXISTING' && ['Post', 'Carousel', 'Article', 'News'].includes(r.format));
   assert.equal(library.records.length, expected.length);
   const libraryIds = new Set(library.records.map(r => r.content_id));
   for (const r of expected) assert.ok(libraryIds.has(r.content_id), `missing library entry for ${r.content_id}`);

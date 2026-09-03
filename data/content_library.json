@@ -679,6 +679,28 @@
       "legacy_status": "Rascunho",
       "source": "LEGACY_EXECUTIVE_CONTENT_STUDIO",
       "migrated_at": "2026-09-03T00:00:00Z"
+    },
+    {
+      "content_id": "NEWS-003",
+      "kind": "news",
+      "title": "Espaço reservado para notícia estratégica de setembro",
+      "source": "LEGACY_EXECUTIVE_CONTENT_STUDIO",
+      "url": null,
+      "summary": "Reservado para uma notícia relevante de liderança, IA ou transformação digital publicada nesse período.",
+      "repost": "Cole aqui a notícia escolhida e utilize este espaço para guardar o texto final do repost.",
+      "hashtags": "#Technology #Leadership #Innovation",
+      "migrated_at": "2026-09-03T00:00:00Z"
+    },
+    {
+      "content_id": "NEWS-004",
+      "kind": "news",
+      "title": "Espaço reservado para notícia técnica de novembro",
+      "source": "LEGACY_EXECUTIVE_CONTENT_STUDIO",
+      "url": null,
+      "summary": "Reservado para novidades de plataforma relevantes para o público técnico neste período.",
+      "repost": "Cole aqui a notícia técnica escolhida e o comentário executivo sobre o impacto para arquitetura e operação.",
+      "hashtags": "#Azure #Cloud #Platform #DataEngineering",
+      "migrated_at": "2026-09-03T00:00:00Z"
     }
   ]
 }
