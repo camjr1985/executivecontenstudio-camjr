@@ -1,13 +1,86 @@
-const app=document.querySelector('#app');
-const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
-const [calendar,media]=await Promise.all([fetch('data/calendar.json',{cache:'no-store'}).then(r=>{if(!r.ok)throw Error('calendar');return r.json()}),fetch('data/media-production-queue.json',{cache:'no-store'}).then(r=>r.json())]);
-const rows=calendar.records;
-function head(kicker,title,sub){return `<div class="eyebrow">${esc(kicker)}</div><h1>${esc(title)}</h1><p class="sub">${esc(sub)}</p>`}
-function status(v){const cls=/PENDING|PROPOSED|DRAFT/.test(v||'')?'pending':/BLOCK/.test(v||'')?'blocked':'';return `<span class="badge ${cls}">${esc(v||'EMPTY')}</span>`}
-function table(data){return `<div class="table-wrap"><table><thead><tr><th>Data</th><th>Hora</th><th>Content ID</th><th>Canal</th><th>Formato</th><th>Título</th><th>Status</th><th>Decisão</th><th>Aprovação</th></tr></thead><tbody>${data.map(r=>`<tr><td>${esc(r.date)}</td><td>${esc(r.time)}</td><td><code>${esc(r.content_id)}</code></td><td>${esc(r.channel)}</td><td>${esc(r.format)}</td><td class="title">${esc(r.title)}</td><td>${status(r.status)}</td><td>${status(r.decision)}</td><td>${r.owner_approval_required?status('OWNER REQUIRED'):'NO'}</td></tr>`).join('')}</tbody></table></div>`}
-function home(){const count=k=>rows.filter(k).length;app.innerHTML=head('Fonte canônica','Calendário editorial 2026','Baseline aprovado para migração técnica. Aprovações pendentes permanecem bloqueadas.')+`<section class="cards"><div class="card"><div class="n">${rows.length}</div><div class="label">Registros</div></div><div class="card"><div class="n">${count(r=>r.channel==='LinkedIn')}</div><div class="label">LinkedIn</div></div><div class="card"><div class="n">${count(r=>r.channel==='Instagram')}</div><div class="label">Instagram</div></div><div class="card"><div class="n">${count(r=>r.channel==='Live')}</div><div class="label">Lives</div></div><div class="card"><div class="n">${count(r=>r.owner_approval_required)}</div><div class="label">Gates do owner</div></div></section>`+table(rows.slice(0,12))}
-function calendarView(){app.innerHTML=head('79 registros','Calendário','Filtre sem alterar a fonte canônica.')+`<div class="toolbar"><input id="q" placeholder="Título ou Content ID"><select id="channel"><option value="">Todos os canais</option>${[...new Set(rows.map(r=>r.channel))].map(v=>`<option>${esc(v)}</option>`).join('')}</select><select id="format"><option value="">Todos os formatos</option>${[...new Set(rows.map(r=>r.format))].map(v=>`<option>${esc(v)}</option>`).join('')}</select><select id="campaign"><option value="">Todas as campanhas</option>${[...new Set(rows.map(r=>r.campaign).filter(Boolean))].map(v=>`<option>${esc(v)}</option>`).join('')}</select></div><div id="results"></div>`;const draw=()=>{const q=document.querySelector('#q').value.toLowerCase(),c=document.querySelector('#channel').value,f=document.querySelector('#format').value,p=document.querySelector('#campaign').value;document.querySelector('#results').innerHTML=table(rows.filter(r=>(!q||(r.title+' '+r.content_id).toLowerCase().includes(q))&&(!c||r.channel===c)&&(!f||r.format===f)&&(!p||r.campaign===p)))};document.querySelectorAll('.toolbar input,.toolbar select').forEach(x=>x.addEventListener('input',draw));draw()}
-function campaigns(){const groups=Object.groupBy(rows.filter(r=>r.campaign),r=>r.campaign);app.innerHTML=head('Campanhas','Plano integrado','Relações de campanha e derivados preservadas do workbook.')+Object.entries(groups).map(([k,v])=>`<section class="group"><h2>${esc(k)}</h2>${table(v)}</section>`).join('')}
-function mediaView(){app.innerHTML=head('Produção','Fila de mídia','Fila técnica; não constitui aprovação nem autorização de publicação.')+table(media.records.map(r=>({date:rows.find(x=>x.content_id===r.content_id)?.date,time:'',content_id:r.content_id,channel:rows.find(x=>x.content_id===r.content_id)?.channel,format:r.media_format,title:r.visual_concept,status:r.current_media_status,decision:r.design_template,owner_approval_required:r.owner_approval_required})))}
-function route(){const r=location.hash.replace(/^#\/?/,'')||'home';({home,calendar:calendarView,campaigns,media:mediaView}[r]||home)()}
-addEventListener('hashchange',route);route();
+import { loadStore } from './data.js';
+import { initDrawer, closeDrawer } from './components.js';
+import { qs, qsa, fmtDate } from './lib/util.js';
+import { renderHome } from './views/home.js';
+import { renderCalendar } from './views/calendar.js';
+import { renderProduction } from './views/production.js';
+import { renderLibrary } from './views/library.js';
+import { renderNews } from './views/news.js';
+import { renderComments } from './views/comments.js';
+import { renderCommentTool } from './views/comment-tool.js';
+import { renderCampaigns, renderCampaignDetail } from './views/campaigns.js';
+import { renderLive } from './views/live.js';
+import { renderIdeas } from './views/ideas.js';
+import { renderReviews, renderReviewDetail } from './views/reviews.js';
+import { renderSearch } from './views/search.js';
+import { renderGuide } from './views/guide.js';
+import { renderGovernance } from './views/governance.js';
+
+const root = qs('#view-root');
+let STORE = null;
+
+function navigate(hash) { location.hash = hash; }
+
+function parseHash() {
+  const h = (location.hash || '#/home').replace(/^#\/?/, '');
+  const parts = h.split('/').filter(Boolean);
+  return { view: parts[0] || 'home', param: parts.slice(1).join('/') };
+}
+
+function highlightNav(view) {
+  qsa('#mainNav a').forEach(a => a.classList.toggle('active', a.getAttribute('data-route') === view));
+  const crumb = qs('#topbarCrumb');
+  const label = qs(`[data-route="${view}"] span:last-child`)?.textContent;
+  if (crumb) crumb.textContent = label ? `Executive Content Studio · ${label}` : 'Executive Content Studio';
+}
+
+function router() {
+  const { view, param } = parseHash();
+  highlightNav(view);
+  root.scrollTo?.(0, 0);
+  qs('#sidebar').classList.remove('open');
+  closeDrawer();
+
+  const routes = {
+    home: () => renderHome(root, STORE, navigate),
+    posts: () => renderLibrary(root, STORE, navigate, 'Post', { eyebrow: 'Biblioteca', title: 'Posts', sub: 'Conteúdo, imagem e hashtags preparados para publicação manual no LinkedIn.' }),
+    carousels: () => renderLibrary(root, STORE, navigate, 'Carousel', { eyebrow: 'Biblioteca', title: 'Carrosséis', sub: 'Sequências de slides com capa própria, uma por item.' }),
+    articles: () => renderLibrary(root, STORE, navigate, 'Article', { eyebrow: 'Biblioteca', title: 'Artigos', sub: 'Textos longos para publicação como artigo, com cascata de promoção e derivados.' }),
+    news: () => renderNews(root, STORE, navigate),
+    comments: () => renderComments(root, STORE, navigate),
+    'comment-tool': () => renderCommentTool(root, STORE, navigate),
+    calendar: () => renderCalendar(root, STORE, navigate, param || null),
+    campaigns: () => param ? renderCampaignDetail(root, STORE, navigate, decodeURIComponent(param)) : renderCampaigns(root, STORE, navigate),
+    live: () => renderLive(root, STORE, navigate),
+    ideas: () => renderIdeas(root, STORE, navigate),
+    production: () => renderProduction(root, STORE, navigate),
+    reviews: () => param ? renderReviewDetail(root, STORE, navigate, param) : renderReviews(root, STORE, navigate),
+    search: () => renderSearch(root, STORE, navigate, param ? decodeURIComponent(param) : ''),
+    guide: () => renderGuide(root, STORE, navigate),
+    governance: () => renderGovernance(root, STORE, navigate)
+  };
+  (routes[view] || routes.home)();
+}
+
+async function boot() {
+  initDrawer();
+  qs('#menuToggle').addEventListener('click', () => qs('#sidebar').classList.toggle('open'));
+  const dateEl = qs('#topbarDate');
+  if (dateEl) dateEl.textContent = fmtDate(new Date().toISOString().slice(0, 10));
+  qs('#globalSearch').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') navigate('#/search/' + encodeURIComponent(e.target.value.trim()));
+  });
+
+  try {
+    STORE = await loadStore();
+  } catch (err) {
+    root.innerHTML = `<div class="empty-state"><span class="ic">⚠️</span>Não foi possível carregar o calendário canónico (${err.message}). Verifique a ligação e recarregue.</div>`;
+    console.error(err);
+    return;
+  }
+
+  addEventListener('hashchange', router);
+  router();
+}
+
+boot();

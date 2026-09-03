@@ -3,21 +3,78 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="Executive Content Studio — calendário editorial canônico.">
+  <meta name="description" content="Executive Content Studio — sala de controlo editorial sobre o calendário canónico do GitHub.">
   <title>Executive Content Studio</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-  <header class="topbar">
-    <a class="brand" href="#/home"><span>ECS</span><strong>Executive Content Studio</strong></a>
-    <nav>
-      <a href="#/home">Visão geral</a><a href="#/calendar">Calendário</a>
-      <a href="#/campaigns">Campanhas</a><a href="#/media">Produção</a>
-    </nav>
-  </header>
-  <main id="app" aria-live="polite"><p class="loading">A carregar calendário canônico…</p></main>
-  <footer>GitHub canonical calendar · publicação externa controlada</footer>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <div class="brand">
+        <span class="brand-mark">ECS</span>
+        <div>
+          <div class="brand-name">Executive Content<br>Studio</div>
+          <div class="brand-tag">Sala de controlo editorial</div>
+        </div>
+      </div>
+      <div class="side-search"><input id="globalSearch" type="text" placeholder="Pesquisar…" autocomplete="off"></div>
+      <nav class="nav-groups" id="mainNav" aria-label="Navegação principal">
+        <div class="nav-group">
+          <a class="nav-link" href="#/home" data-route="home"><span class="ic">🏠</span><span>Hoje</span></a>
+        </div>
+        <div class="nav-group">
+          <div class="nav-group-label">Conteúdo</div>
+          <a class="nav-link" href="#/posts" data-route="posts"><span class="ic">🖼️</span><span>Posts</span></a>
+          <a class="nav-link" href="#/carousels" data-route="carousels"><span class="ic">📚</span><span>Carrosséis</span></a>
+          <a class="nav-link" href="#/articles" data-route="articles"><span class="ic">📖</span><span>Artigos</span></a>
+          <a class="nav-link" href="#/news" data-route="news"><span class="ic">📰</span><span>Notícias</span></a>
+        </div>
+        <div class="nav-group">
+          <div class="nav-group-label">Engajamento</div>
+          <a class="nav-link" href="#/comments" data-route="comments"><span class="ic">💬</span><span>Comentários</span></a>
+          <a class="nav-link" href="#/comment-tool" data-route="comment-tool"><span class="ic">🧩</span><span>Sugestões</span></a>
+        </div>
+        <div class="nav-group">
+          <div class="nav-group-label">Planeamento</div>
+          <a class="nav-link" href="#/calendar" data-route="calendar"><span class="ic">📅</span><span>Calendário</span></a>
+          <a class="nav-link" href="#/campaigns" data-route="campaigns"><span class="ic">🎯</span><span>Campanhas</span></a>
+          <a class="nav-link" href="#/live" data-route="live"><span class="ic">🎙️</span><span>Lives</span></a>
+          <a class="nav-link" href="#/ideas" data-route="ideas"><span class="ic">💡</span><span>Banco de Ideias</span></a>
+        </div>
+        <div class="nav-group">
+          <div class="nav-group-label">Operação</div>
+          <a class="nav-link" href="#/production" data-route="production"><span class="ic">🛠️</span><span>Produção</span></a>
+          <a class="nav-link" href="#/reviews" data-route="reviews"><span class="ic">📊</span><span>Revisões Mensais</span></a>
+        </div>
+        <div class="nav-group">
+          <div class="nav-group-label">Ferramentas</div>
+          <a class="nav-link" href="#/search" data-route="search"><span class="ic">🔍</span><span>Pesquisa</span></a>
+          <a class="nav-link" href="#/guide" data-route="guide"><span class="ic">✒️</span><span>Guia de Escrita</span></a>
+          <a class="nav-link" href="#/governance" data-route="governance"><span class="ic">🗂️</span><span>Fonte & Governança</span></a>
+        </div>
+      </nav>
+      <div class="sidebar-foot">GitHub canónico · publicação manual · sem automação</div>
+    </aside>
+
+    <div class="main">
+      <header class="topbar">
+        <button class="menu-toggle" id="menuToggle" aria-label="Menu">☰</button>
+        <span class="topbar-crumb" id="topbarCrumb">Executive Content Studio</span>
+        <span class="topbar-date" id="topbarDate"></span>
+      </header>
+      <main id="view-root" class="content" tabindex="-1">
+        <p class="empty-state">A carregar calendário canónico…</p>
+      </main>
+    </div>
+  </div>
+
+  <div class="scrim" id="scrim"></div>
+  <aside class="drawer" id="drawer"></aside>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
   <script type="module" src="js/app.js"></script>
 </body>
 </html>
