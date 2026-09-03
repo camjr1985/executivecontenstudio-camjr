@@ -1,0 +1,49 @@
+{
+  "schema_version": "1.0.0",
+  "source": "LEGACY_EXECUTIVE_CONTENT_STUDIO",
+  "migrated_at": "2026-09-03T00:00:00Z",
+  "records": [
+    {
+      "id": "COM-001",
+      "category": "Liderança",
+      "title": "Comunicação estratégica",
+      "text": "Excelente reflexão. Na minha experiência liderando equipas no Brasil e em Portugal, percebi que a comunicação deixou de ser apenas uma competência comportamental para se tornar uma capacidade estratégica. Muitos problemas atribuídos à tecnologia, aos processos ou à execução têm origem em objetivos pouco claros, feedback insuficiente e ausência de escuta ativa. No final, comunicar bem é criar entendimento, confiança, compromisso e resultados.",
+      "source": "LEGACY_EXECUTIVE_CONTENT_STUDIO"
+    },
+    {
+      "id": "COM-002",
+      "category": "CEO",
+      "title": "Cultura e retenção",
+      "text": "Cultura organizacional não é definida pelos valores escritos na parede, mas pelos comportamentos que a liderança aceita, recompensa ou corrige. Quando a organização tolera comportamentos que destroem confiança, a mensagem para os melhores talentos é clara. Proteger a cultura é uma responsabilidade estratégica, não apenas uma pauta de RH.",
+      "source": "LEGACY_EXECUTIVE_CONTENT_STUDIO"
+    },
+    {
+      "id": "COM-003",
+      "category": "Tecnologia",
+      "title": "Estratégia e execução",
+      "text": "Tecnologia abre possibilidades, mas é a capacidade de execução que transforma investimento em resultado. Estratégia, arquitetura, pessoas, segurança e governança precisam avançar juntas. Caso contrário, a empresa apenas adiciona novas ferramentas aos mesmos problemas antigos.",
+      "source": "LEGACY_EXECUTIVE_CONTENT_STUDIO"
+    },
+    {
+      "id": "COM-004",
+      "category": "AI",
+      "title": "IA e confiança",
+      "text": "A corrida pela IA não será vencida apenas pelo melhor modelo. Será vencida pelas organizações que conseguirem combinar dados confiáveis, governança, segurança, ética e execução. Na economia da IA, confiança torna-se uma vantagem competitiva.",
+      "source": "LEGACY_EXECUTIVE_CONTENT_STUDIO"
+    },
+    {
+      "id": "COM-005",
+      "category": "Cyber Security",
+      "title": "Segurança como capacidade contínua",
+      "text": "Segurança da informação para de ser eficaz no momento em que é tratada como projeto com data de término. Casos de uso, playbooks e métricas de deteção precisam de revisão constante, na mesma cadência das ameaças que evoluem todos os dias.",
+      "source": "LEGACY_EXECUTIVE_CONTENT_STUDIO"
+    },
+    {
+      "id": "COM-006",
+      "category": "PMO",
+      "title": "Governança de portfólio",
+      "text": "Um PMO maduro não existe para acumular relatórios de status. Existe para dar visibilidade real de risco, dependência e capacidade, permitindo que a liderança tome decisões de priorização com informação, não com intuição isolada.",
+      "source": "LEGACY_EXECUTIVE_CONTENT_STUDIO"
+    }
+  ]
+}

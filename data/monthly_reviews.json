@@ -1,0 +1,106 @@
+{
+  "schema_version": "1.0.0",
+  "source": "LEGACY_EXECUTIVE_CONTENT_STUDIO",
+  "migrated_at": "2026-09-03T00:00:00Z",
+  "records": [
+    {
+      "id": "REV-001",
+      "date": "2026-08-31",
+      "title": "Revisão de agosto — validar números",
+      "period": "Agosto 2026",
+      "summary": "Checklist para validar o desempenho do conteúdo publicado em agosto antes de fechar o mês.",
+      "checklist": [
+        "Impressões totais dos posts do mês, comparadas com o mês anterior",
+        "Taxa média de engajamento (reações + comentários + partilhas ÷ impressões)",
+        "Qual post teve melhor desempenho — e porquê (tema, formato, hora de publicação)?",
+        "Qual post teve pior desempenho — e o que isso ensina?",
+        "Crescimento de seguidores no perfil/página este mês",
+        "Quantos comentários geraram conversa real, não só 'ótimo post'?",
+        "Algum tema ou categoria gerou mais engajamento do que os outros?",
+        "O ritmo de publicação foi sustentável, ou gerou pressa no conteúdo?"
+      ],
+      "notes": "",
+      "source": "LEGACY_EXECUTIVE_CONTENT_STUDIO"
+    },
+    {
+      "id": "REV-002",
+      "date": "2026-09-30",
+      "title": "Revisão de agosto–setembro — preparar Q4",
+      "period": "Agosto–Setembro 2026",
+      "summary": "Revisão alargada de dois meses para identificar tendências antes de fechar o calendário de Outubro, Novembro e Dezembro.",
+      "checklist": [
+        "Impressões totais de setembro, comparadas com agosto",
+        "Taxa média de engajamento de setembro, comparada com agosto",
+        "Qual post teve melhor desempenho em setembro — e porquê?",
+        "Qual post teve pior desempenho em setembro — e o que isso ensina?",
+        "Crescimento de seguidores nos dois meses combinados",
+        "Comparando os dois meses, que formato rendeu mais: post, carrossel ou artigo?",
+        "Que temas tiveram melhor desempenho nos dois meses e devem ser priorizados?",
+        "Que temas tiveram desempenho fraco e devem ser reduzidos ou repensados?",
+        "O ritmo de publicação (dias da semana, frequência) funcionou, ou precisa de ajuste?",
+        "Definir temas e datas específicas para Outubro com base nesta análise",
+        "Definir temas e datas específicas para Novembro com base nesta análise",
+        "Definir temas e datas específicas para Dezembro com base nesta análise"
+      ],
+      "notes": "",
+      "source": "LEGACY_EXECUTIVE_CONTENT_STUDIO"
+    },
+    {
+      "id": "REV-003",
+      "date": "2026-10-30",
+      "title": "Revisão de outubro — validar números",
+      "period": "Outubro 2026",
+      "summary": "Checklist para validar o desempenho do conteúdo publicado em outubro antes de fechar o mês.",
+      "checklist": [
+        "Impressões totais do mês, comparadas com o mês anterior",
+        "Taxa média de engajamento (reações + comentários + partilhas ÷ impressões)",
+        "Qual post teve melhor desempenho — e porquê (tema, formato, hora de publicação)?",
+        "Qual post teve pior desempenho — e o que isso ensina?",
+        "Crescimento de seguidores no perfil/página este mês",
+        "Quantos comentários geraram conversa real, não só 'ótimo post'?",
+        "Algum tema ou categoria gerou mais engajamento do que os outros?",
+        "Os ajustes definidos na revisão de setembro estão a funcionar?"
+      ],
+      "notes": "",
+      "source": "LEGACY_EXECUTIVE_CONTENT_STUDIO"
+    },
+    {
+      "id": "REV-004",
+      "date": "2026-11-30",
+      "title": "Revisão de novembro — validar números",
+      "period": "Novembro 2026",
+      "summary": "Checklist para validar o desempenho do conteúdo publicado em novembro antes de fechar o mês.",
+      "checklist": [
+        "Impressões totais do mês, comparadas com o mês anterior",
+        "Taxa média de engajamento (reações + comentários + partilhas ÷ impressões)",
+        "Qual post teve melhor desempenho — e porquê (tema, formato, hora de publicação)?",
+        "Qual post teve pior desempenho — e o que isso ensina?",
+        "Crescimento de seguidores no perfil/página este mês",
+        "Quantos comentários geraram conversa real, não só 'ótimo post'?",
+        "Algum tema ou categoria gerou mais engajamento do que os outros?",
+        "O calendário de dezembro precisa de algum ajuste com base neste mês?"
+      ],
+      "notes": "",
+      "source": "LEGACY_EXECUTIVE_CONTENT_STUDIO"
+    },
+    {
+      "id": "REV-005",
+      "date": "2026-12-31",
+      "title": "Revisão de dezembro — e balanço do ano",
+      "period": "Dezembro 2026 / Ano completo",
+      "summary": "Checklist do mês, mais um balanço do ano inteiro para orientar o planeamento de 2027.",
+      "checklist": [
+        "Impressões totais de dezembro, comparadas com novembro",
+        "Taxa média de engajamento de dezembro",
+        "Qual post teve melhor desempenho em dezembro — e porquê?",
+        "Crescimento de seguidores este mês",
+        "Olhando o ano completo, qual foi o post, carrossel ou artigo com melhor desempenho absoluto?",
+        "Que tema, ao longo do ano, gerou mais conversa real com a audiência certa?",
+        "Que formato valeu mais o esforço: posts, carrosséis ou artigos?",
+        "O que vamos manter, mudar ou parar de fazer em 2027, com base nos dados — não só na intuição?"
+      ],
+      "notes": "",
+      "source": "LEGACY_EXECUTIVE_CONTENT_STUDIO"
+    }
+  ]
+}

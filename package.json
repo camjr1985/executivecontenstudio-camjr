@@ -1,1 +1,1 @@
-{"name":"executive-content-studio","private":true,"scripts":{"test":"node --test tests/*.test.mjs","validate":"node build/validate.mjs"}}
+{"name":"executive-content-studio","private":true,"scripts":{"test":"node --test tests/*.test.mjs","validate":"node build/validate.mjs","migrate":"node build/migrate_legacy_content.mjs"}}

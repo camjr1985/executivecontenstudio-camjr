@@ -1,0 +1,37 @@
+{
+  "schema_version": "1.0.0",
+  "source": "LEGACY_EXECUTIVE_CONTENT_STUDIO",
+  "migrated_at": "2026-09-03T00:00:00Z",
+  "do": [
+    "Comece pelo facto, pela tensão ou pela experiência concreta — não pelo contexto óbvio (\"no mundo atual…\").",
+    "Use um exemplo, número ou situação real sempre que possível. Especificidade é o que mais diferencia texto humano de texto genérico.",
+    "Escreva como fala. Se uma frase soa estranha lida em voz alta, reescreva-a.",
+    "Varie o comprimento das frases. Uma frase curta a seguir a uma longa cria ritmo — texto de IA tende a ser uniforme.",
+    "Tenha uma opinião clara, mesmo que discutível. Texto executivo que não arrisca nada também não gera conversa.",
+    "Termine com uma pergunta genuína — algo que você realmente quer saber, não uma pergunta de fórmula."
+  ],
+  "avoid": [
+    "\"Não é apenas X, é Y\" — a estrutura mais repetida em texto gerado por IA.",
+    "\"No mundo atual/Na era digital/No cenário atual…\" como abertura genérica.",
+    "\"É importante notar que…\", \"Vale ressaltar que…\" — anunciar a frase em vez de a dizer.",
+    "Excesso de travessões (—) a fazer o trabalho da pontuação normal.",
+    "Palavras vagas de discurso corporativo: \"revolucionário\", \"sinergia\", \"disruptivo\", \"holístico\".",
+    "Fechos formulaicos: \"Em suma…\", \"Em conclusão…\", \"Por fim, mas não menos importante…\".",
+    "Três parágrafos com exatamente o mesmo tamanho e a mesma estrutura — parece gerado, não escrito."
+  ],
+  "checklist": [
+    "Há pelo menos um facto, número ou exemplo concreto — não só afirmações genéricas?",
+    "Se eu ler em voz alta, soa como eu a falar, ou como um relatório?",
+    "Tirei as frases que só anunciam o que vou dizer, sem dizer nada?",
+    "A opinião está clara, ou ficou tudo em cima do muro para agradar a todos?",
+    "O CTA/pergunta final é algo que eu realmente quero saber?"
+  ],
+  "comment_skeletons": [
+    "Concordo com o ponto sobre [tema]. Na minha experiência em [contexto/empresa], vi algo parecido quando [situação real] — e o que resolveu foi [ação concreta].",
+    "Eu discordaria só num ponto: [onde discorda] — porque [motivo baseado em experiência própria]. Fora isso, [tema] é mesmo um dos maiores desafios que vejo em [contexto].",
+    "Isto conecta diretamente com algo que aprendi a lidar em [tema]: [lição específica]. Curioso para saber como resolveram [pergunta pontual sobre o post].",
+    "Um dado que reforça este ponto: [número ou estatística real que conheça]. Sem isso, fica difícil convencer quem decide orçamento em [tema].",
+    "O que mais me marcou aqui foi [frase ou ideia específica do post]. Isso mudou a forma como penso [algo concreto na sua prática].",
+    "Pergunta genuína: como é que lidam com [situação difícil relacionada com o tema] quando [restrição real, ex.: equipa pequena / prazo apertado]?"
+  ]
+}

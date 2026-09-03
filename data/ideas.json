@@ -1,0 +1,151 @@
+{
+  "schema_version": "1.0.0",
+  "source": "LEGACY_EXECUTIVE_CONTENT_STUDIO",
+  "migrated_at": "2026-09-03T00:00:00Z",
+  "records": [
+    {
+      "id": "IDEA-001",
+      "theme": "Azure",
+      "text": "5 erros que tornam uma Azure Landing Zone difícil de escalar",
+      "lifecycle": "IDEA",
+      "converted_content_id": null,
+      "source": "LEGACY_EXECUTIVE_CONTENT_STUDIO"
+    },
+    {
+      "id": "IDEA-002",
+      "theme": "Databricks",
+      "text": "Unity Catalog: governança, segurança e ownership além do catálogo",
+      "lifecycle": "IDEA",
+      "converted_content_id": null,
+      "source": "LEGACY_EXECUTIVE_CONTENT_STUDIO"
+    },
+    {
+      "id": "IDEA-003",
+      "theme": "SQL",
+      "text": "Por que performance SQL é uma decisão de arquitetura e não apenas de query",
+      "lifecycle": "IDEA",
+      "converted_content_id": null,
+      "source": "LEGACY_EXECUTIVE_CONTENT_STUDIO"
+    },
+    {
+      "id": "IDEA-004",
+      "theme": "CyberArk",
+      "text": "PAM não é apenas cofre de senhas: é redução de risco operacional",
+      "lifecycle": "IDEA",
+      "converted_content_id": null,
+      "source": "LEGACY_EXECUTIVE_CONTENT_STUDIO"
+    },
+    {
+      "id": "IDEA-005",
+      "theme": "Azure DevOps",
+      "text": "Quando o backlog melhora o fluxo e quando vira burocracia digital",
+      "lifecycle": "IDEA",
+      "converted_content_id": null,
+      "source": "LEGACY_EXECUTIVE_CONTENT_STUDIO"
+    },
+    {
+      "id": "IDEA-006",
+      "theme": "AI",
+      "text": "Agentes de IA precisam de identidade, limites e accountability",
+      "lifecycle": "IDEA",
+      "converted_content_id": null,
+      "source": "LEGACY_EXECUTIVE_CONTENT_STUDIO"
+    },
+    {
+      "id": "IDEA-007",
+      "theme": "Liderança",
+      "text": "O melhor líder não cria seguidores; cria novos líderes",
+      "lifecycle": "IDEA",
+      "converted_content_id": null,
+      "source": "LEGACY_EXECUTIVE_CONTENT_STUDIO"
+    },
+    {
+      "id": "IDEA-008",
+      "theme": "Portugal",
+      "text": "O que aprendi liderando equipas entre Brasil e Portugal",
+      "lifecycle": "IDEA",
+      "converted_content_id": null,
+      "source": "LEGACY_EXECUTIVE_CONTENT_STUDIO"
+    },
+    {
+      "id": "IDEA-009",
+      "theme": "GitHub",
+      "text": "GitHub Copilot em contexto empresarial: produtividade real ou ruído?",
+      "lifecycle": "IDEA",
+      "converted_content_id": null,
+      "source": "LEGACY_EXECUTIVE_CONTENT_STUDIO"
+    },
+    {
+      "id": "IDEA-010",
+      "theme": "Sentinel",
+      "text": "Métricas que realmente importam para um SOC: MTTD, MTTR e cobertura de casos de uso",
+      "lifecycle": "IDEA",
+      "converted_content_id": null,
+      "source": "LEGACY_EXECUTIVE_CONTENT_STUDIO"
+    },
+    {
+      "id": "IDEA-011",
+      "theme": "Cloud",
+      "text": "FinOps não é sobre cortar custos, é sobre decisões de arquitetura conscientes",
+      "lifecycle": "IDEA",
+      "converted_content_id": null,
+      "source": "LEGACY_EXECUTIVE_CONTENT_STUDIO"
+    },
+    {
+      "id": "IDEA-012",
+      "theme": "Cyber Security",
+      "text": "Zero Trust é uma jornada arquitetural, não um produto que se compra",
+      "lifecycle": "IDEA",
+      "converted_content_id": null,
+      "source": "LEGACY_EXECUTIVE_CONTENT_STUDIO"
+    },
+    {
+      "id": "IDEA-013",
+      "theme": "Management",
+      "text": "Reuniões de 1:1 que geram decisão, não só status",
+      "lifecycle": "IDEA",
+      "converted_content_id": null,
+      "source": "LEGACY_EXECUTIVE_CONTENT_STUDIO"
+    },
+    {
+      "id": "IDEA-014",
+      "theme": "Agile",
+      "text": "Sprints não falham por metodologia, falham por prioridades não decididas",
+      "lifecycle": "IDEA",
+      "converted_content_id": null,
+      "source": "LEGACY_EXECUTIVE_CONTENT_STUDIO"
+    },
+    {
+      "id": "IDEA-015",
+      "theme": "Databricks",
+      "text": "MLOps sem observabilidade é experimento, não produto",
+      "lifecycle": "IDEA",
+      "converted_content_id": null,
+      "source": "LEGACY_EXECUTIVE_CONTENT_STUDIO"
+    },
+    {
+      "id": "IDEA-016",
+      "theme": "Europa",
+      "text": "Compliance europeu (GDPR/NIS2) como vantagem competitiva, não obstáculo",
+      "lifecycle": "IDEA",
+      "converted_content_id": null,
+      "source": "LEGACY_EXECUTIVE_CONTENT_STUDIO"
+    },
+    {
+      "id": "IDEA-017",
+      "theme": "DevOps",
+      "text": "Deploy à sexta-feira: o verdadeiro problema não é o dia da semana",
+      "lifecycle": "IDEA",
+      "converted_content_id": null,
+      "source": "LEGACY_EXECUTIVE_CONTENT_STUDIO"
+    },
+    {
+      "id": "IDEA-018",
+      "theme": "Liderança",
+      "text": "Silêncio numa reunião não é concordância",
+      "lifecycle": "IDEA",
+      "converted_content_id": null,
+      "source": "LEGACY_EXECUTIVE_CONTENT_STUDIO"
+    }
+  ]
+}
