@@ -28,10 +28,16 @@ const STATUS_BADGE = {
   DRAFT: 'warn', PROPOSED: 'warn', READY: 'ok', SCHEDULED: 'blue', APPROVED: 'ok',
   PUBLISHED: 'ok', BLOCKED: 'danger'
 };
+// NOT_APPLICABLE marks a record the owner has pulled out of the production
+// workflow entirely (e.g. cancelled, or handled manually outside the app).
+// It gets a friendlier label and, deliberately, no color class -- it reads
+// as "off" rather than as another stage of the pipeline.
+const STATUS_LABEL = { NOT_APPLICABLE: 'Não aplicável' };
+export function isIgnored(r) { return r.status === 'NOT_APPLICABLE'; }
 export function statusBadge(status) {
   if (!status) return '';
   const cls = STATUS_BADGE[status] || '';
-  return `<span class="badge ${cls}">${esc(status)}</span>`;
+  return `<span class="badge ${cls}">${esc(STATUS_LABEL[status] || status)}</span>`;
 }
 export function approvalBadge(required) {
   return required ? `<span class="badge danger">Owner gate</span>` : '';

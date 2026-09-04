@@ -1,5 +1,5 @@
 import { esc, pad, DOW, fmtMonthYear, fmtDateTime, capitalize, isPlaceholderValue } from '../lib/util.js';
-import { formatIcon, formatLabel, channelIcon, statusBadge, emptyState, recordCard, bindRecordCards, displayTitle } from '../components.js';
+import { formatIcon, formatLabel, channelIcon, statusBadge, isIgnored, emptyState, recordCard, bindRecordCards, displayTitle } from '../components.js';
 import { pageHead, openRecordDrawer } from './_shared.js';
 
 let mode = 'month'; // 'month' | 'list'
@@ -73,11 +73,13 @@ function monthGrid(year, month, records) {
     const iso = `${year}-${pad(month + 1)}-${pad(d)}`;
     const events = records.filter(r => r.date === iso);
     cells += `<div class="cal-day${iso === todayIso ? ' today' : ''}"><span class="num">${d}</span>${events.map(e => {
-      const cls = e.channel === 'Live' ? 'c-live' : e.channel === 'Instagram' ? 'c-instagram' : 'c-linkedin';
+      const na = isIgnored(e);
+      const cls = (e.channel === 'Live' ? 'c-live' : e.channel === 'Instagram' ? 'c-instagram' : 'c-linkedin') + (na ? ' ignored' : '');
       const timeLabel = isPlaceholderValue(e.time) ? '' : esc(e.time) + ' ';
       const title = displayTitle(e);
       const chIcon = channelIcon(e.channel);
-      return `<div class="cal-event ${cls}" data-cal-open="${esc(e.content_id)}" title="${esc(e.channel)} · ${esc(formatLabel(e.channel, e.format))} · ${esc(title)}${isPlaceholderValue(e.time) ? ' (horário a confirmar)' : ''}">${chIcon ? chIcon + ' ' : ''}${formatIcon(e.channel, e.format)} ${timeLabel}${esc(title)}</div>`;
+      const tip = `${esc(e.channel)} · ${esc(formatLabel(e.channel, e.format))} · ${esc(title)}${na ? ' (não aplicável — fora do fluxo)' : isPlaceholderValue(e.time) ? ' (horário a confirmar)' : ''}`;
+      return `<div class="cal-event ${cls}" data-cal-open="${esc(e.content_id)}" title="${tip}">${chIcon ? chIcon + ' ' : ''}${formatIcon(e.channel, e.format)} ${timeLabel}${esc(title)}</div>`;
     }).join('')}</div>`;
   }
   return `<div class="cal-nav">
@@ -92,14 +94,17 @@ function listView(records) {
   const sorted = [...records].sort((a, b) => a.date < b.date ? -1 : a.date > b.date ? 1 : 0);
   if (!sorted.length) return emptyState('Nenhum registo com este filtro.');
   return `<div class="table-wrap"><table><thead><tr><th>Data</th><th>Canal</th><th>Formato</th><th>Título</th><th>Campanha</th><th>Estado</th><th>Owner gate</th></tr></thead><tbody>
-    ${sorted.map(r => `<tr data-open-record="${esc(r.content_id)}">
+    ${sorted.map(r => {
+      const na = isIgnored(r);
+      return `<tr data-open-record="${esc(r.content_id)}"${na ? ' class="row-ignored"' : ''}>
       <td>${esc(fmtDateTime(r.date, r.time))}</td>
       <td>${channelIcon(r.channel) ? channelIcon(r.channel) + ' ' : ''}${esc(r.channel)}</td>
       <td>${formatIcon(r.channel, r.format)} ${esc(r.format)}</td>
-      <td>${esc(displayTitle(r))}</td>
+      <td${na ? ' style="text-decoration:line-through;color:var(--faint)"' : ''}>${esc(displayTitle(r))}</td>
       <td>${r.campaign ? esc(r.campaign) : '—'}</td>
       <td>${statusBadge(r.status)}</td>
-      <td>${r.owner_approval_required ? '⚠️' : '—'}</td>
-    </tr>`).join('')}
+      <td>${na ? '—' : (r.owner_approval_required ? '⚠️' : '—')}</td>
+    </tr>`;
+    }).join('')}
   </tbody></table></div>`;
 }

@@ -241,6 +241,8 @@ tbody tr:last-child td{border-bottom:none}
 .cal-event.c-linkedin{background:#E4EBFB;color:var(--blue)}
 .cal-event.c-instagram{background:#FBE4F0;color:#B5297A}
 .cal-event.c-live{background:var(--gold-soft);color:var(--gold-ink);font-weight:700}
+.cal-event.ignored{text-decoration:line-through;opacity:.55;font-weight:400}
+tr.row-ignored{opacity:.6}
 
 /* ---------- Responsive ---------- */
 @media (max-width:960px){
