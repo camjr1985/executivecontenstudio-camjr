@@ -150,3 +150,80 @@ export async function patchRecord(token, contentId, patch, commitMessage, _retri
 
   return data.records[idx];
 }
+
+// Creates a new record cloned from `sourceContentId`, linked to it via
+// parent_content_id, with `overrides.channel`/`overrides.format` applied and
+// everything channel-specific reset to a fresh, unpublished state (own
+// status/media/text -- nothing carried over that would misrepresent this as
+// already-done work on the new channel). Shared context (date, time,
+// editorial_pillar, campaign, market, language, media_asset) is kept as-is
+// since that's usually still correct for the same idea on another channel.
+// Grows calendar.json by one record and keeps row_count in sync -- the
+// calendar is allowed to grow now that the app supports real duplication,
+// same as any other owner-authored write here.
+export async function duplicateRecord(token, sourceContentId, overrides) {
+  const { data, sha } = await fetchCalendarFile(token);
+  const source = data.records.find(r => r.content_id === sourceContentId);
+  if (!source) throw new Error(`${sourceContentId} nao foi encontrado no calendar.json atual.`);
+
+  const existingIds = new Set(data.records.map(r => r.content_id));
+  const suffix = { LinkedIn: 'LI', Instagram: 'IG', Live: 'LV' }[overrides.channel] || 'DUP';
+  let newId = `${sourceContentId}-${suffix}`;
+  let n = 2;
+  while (existingIds.has(newId)) { newId = `${sourceContentId}-${suffix}${n}`; n += 1; }
+
+  const nowIso = new Date().toISOString();
+  const clone = {
+    ...source,
+    content_id: newId,
+    parent_content_id: sourceContentId,
+    title: `${source.title} (cópia — ${overrides.channel})`,
+    channel: overrides.channel,
+    format: overrides.format,
+    status: 'DRAFT',
+    owner_approval_required: true,
+    buffer_eligible: 'NO',
+    automation_eligible: 'NO',
+    media_status: 'PENDING_MEDIA',
+    qc_status: null,
+    buffer_id: null,
+    publication_status: 'PENDING',
+    publication_url: null,
+    published_at: null,
+    copy_status: 'PENDING',
+    draft_text: '',
+    existing_or_new: 'NEW',
+    decision: 'NEW',
+    rationale: `Duplicado de ${sourceContentId} para ${overrides.channel} via Fonte & Governança`,
+    created_at: nowIso,
+    updated_at: nowIso,
+    revision: 1
+  };
+  delete clone.copy;
+  delete clone.source_record;
+  delete clone.buffer;
+
+  data.records.push(clone);
+  data.row_count = data.records.length;
+
+  const newContent = JSON.stringify(data, null, 2) + '\n';
+  const res = await api(`/repos/${REPO}/contents/${CALENDAR_PATH}`, token, {
+    method: 'PUT',
+    body: JSON.stringify({
+      message: `Duplicar ${sourceContentId} para ${overrides.channel} (${newId}) via Fonte & Governança`,
+      content: utf8ToB64(newContent),
+      sha,
+      branch: BRANCH
+    })
+  });
+
+  if (res.status === 409) throw new Error('CONFLICT: o ficheiro no GitHub mudou entretanto. Tente novamente.');
+  if (res.status === 401) throw new Error('Token invalido ou expirado.');
+  if (res.status === 403) throw new Error('O token nao tem permissao de escrita neste repositorio.');
+  if (!res.ok) {
+    const body = await res.json().catch(() => ({}));
+    throw new Error(`GitHub recusou o commit (${res.status}): ${body.message || 'erro desconhecido'}.`);
+  }
+
+  return clone;
+}

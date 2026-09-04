@@ -1,6 +1,6 @@
 import { esc } from '../lib/util.js';
 import { openDrawer, drawerShell, formatIcon } from '../components.js';
-import { renderRecordBody, bindRecordActions, bindEditActions, bindTextActions } from '../record-detail.js';
+import { renderRecordBody, bindRecordActions, bindEditActions } from '../record-detail.js';
 import { childrenOf } from '../data.js';
 
 export function pageHead(eyebrow, title, sub, actionsHtml) {
@@ -16,8 +16,14 @@ export function openRecordDrawer(store, id) {
   openDrawer(drawerShell(renderRecordBody(r)));
   const scope = document.getElementById('drawer');
   bindRecordActions(scope, r);
-  bindEditActions(scope, r, () => openRecordDrawer(store, id));
-  bindTextActions(scope, r, () => openRecordDrawer(store, id));
+  bindEditActions(scope, r, () => openRecordDrawer(store, id), (clone) => {
+    // New record from "Duplicar para outro canal" -- shape it like every
+    // other store.records entry (copy/media joined at load time, null here
+    // since a fresh duplicate has neither yet) and open it right away.
+    store.records.push({ ...clone, copy: null, media: null });
+    store.meta.row_count = store.records.length;
+    openRecordDrawer(store, clone.content_id);
+  });
 }
 
 // A campaign/Live content cascade, rendered as CAMPAIGN -> POST -> STORY -> ... chips.
