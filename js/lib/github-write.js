@@ -102,17 +102,25 @@ export async function fetchCalendarFile(token) {
   return { data: JSON.parse(text), sha: body.sha };
 }
 
+// Small helper: on a 409 (stale sha), wait a little before refetching and
+// retrying -- gives a near-simultaneous second write (from this browser or
+// another) a moment to land first, instead of immediately racing it again.
+function conflictBackoff(attempt) {
+  return new Promise(resolve => setTimeout(resolve, 250 * attempt));
+}
+
 // Applies `patch` (a plain object of field: value) onto the record matching
 // content_id inside a freshly-fetched calendar.json, then commits the whole
 // file back with that record's sha. Never touches source_record (the
 // immutable original-import snapshot) or any other record.
 //
-// _retried is internal: a 409 means the sha we fetched went stale between
+// _attempt is internal: a 409 means the sha we fetched went stale between
 // our read and our write -- almost always because two saves from the same
 // browser (e.g. the "Texto" panel and the "Editar" panel) landed close
 // together, not a real external edit. That's transient, so we refetch and
-// try once more automatically before bothering the owner with an error.
-export async function patchRecord(token, contentId, patch, commitMessage, _retried = false) {
+// try again automatically (up to 3 attempts total) before bothering the
+// owner with an error.
+export async function patchRecord(token, contentId, patch, commitMessage, _attempt = 1) {
   const { data, sha } = await fetchCalendarFile(token);
   const idx = data.records.findIndex(r => r.content_id === contentId);
   if (idx === -1) throw new Error(`${contentId} nao foi encontrado no calendar.json atual.`);
@@ -138,8 +146,11 @@ export async function patchRecord(token, contentId, patch, commitMessage, _retri
   });
 
   if (res.status === 409) {
-    if (!_retried) return patchRecord(token, contentId, patch, commitMessage, true);
-    throw new Error('CONFLICT: o ficheiro no GitHub mudou entretanto e a nova tentativa automatica tambem falhou. Feche e reabra o registo e tente de novo.');
+    if (_attempt < 3) {
+      await conflictBackoff(_attempt);
+      return patchRecord(token, contentId, patch, commitMessage, _attempt + 1);
+    }
+    throw new Error('CONFLICT: o ficheiro no GitHub mudou entretanto e as tentativas automaticas tambem falharam. Feche e reabra o registo e tente de novo.');
   }
   if (res.status === 401) throw new Error('Token invalido ou expirado.');
   if (res.status === 403) throw new Error('O token nao tem permissao de escrita neste repositorio.');
@@ -162,11 +173,12 @@ export async function patchRecord(token, contentId, patch, commitMessage, _retri
 // calendar is allowed to grow now that the app supports real duplication,
 // same as any other owner-authored write here.
 //
-// _retried is internal, same reasoning as patchRecord's: a 409 here almost
+// _attempt is internal, same reasoning as patchRecord's: a 409 here almost
 // always just means another write (e.g. an edit save that was still
 // in-flight, or a previous duplicate) landed a moment earlier -- refetch
-// and retry once automatically before surfacing an error to the owner.
-export async function duplicateRecord(token, sourceContentId, overrides, _retried = false) {
+// and retry automatically (up to 3 attempts total) before surfacing an
+// error to the owner.
+export async function duplicateRecord(token, sourceContentId, overrides, _attempt = 1) {
   const { data, sha } = await fetchCalendarFile(token);
   const source = data.records.find(r => r.content_id === sourceContentId);
   if (!source) throw new Error(`${sourceContentId} nao foi encontrado no calendar.json atual.`);
@@ -229,8 +241,11 @@ export async function duplicateRecord(token, sourceContentId, overrides, _retrie
   });
 
   if (res.status === 409) {
-    if (!_retried) return duplicateRecord(token, sourceContentId, overrides, true);
-    throw new Error('CONFLICT: o ficheiro no GitHub mudou entretanto e a nova tentativa automatica tambem falhou. Feche e reabra o registo e tente de novo.');
+    if (_attempt < 3) {
+      await conflictBackoff(_attempt);
+      return duplicateRecord(token, sourceContentId, overrides, _attempt + 1);
+    }
+    throw new Error('CONFLICT: o ficheiro no GitHub mudou entretanto e as tentativas automaticas tambem falharam. Feche e reabra o registo e tente de novo.');
   }
   if (res.status === 401) throw new Error('Token invalido ou expirado.');
   if (res.status === 403) throw new Error('O token nao tem permissao de escrita neste repositorio.');

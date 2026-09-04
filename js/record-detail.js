@@ -327,27 +327,43 @@ async function savePatch(scope, r, onSaved, patch, msgEl, commitNote) {
   }
 }
 
-export function bindEditActions(scope, r, onSaved, onDuplicated) {
-  // Quick action: mark published right now, without touching date/time/media.
+// Quick action: mark published right now, without touching date/time/media.
+// Kept as its own function (instead of inline in bindEditActions) so its
+// Cancelar path can re-bind ONLY itself. #quickPublishRow's innerHTML is
+// replaced on every toggle, so the #quickPublishBtn a repeat call queries is
+// always a brand-new DOM node with no listener on it yet -- calling this
+// again is safe and never stacks duplicate listeners. Earlier this recursed
+// into the whole bindEditActions() on the SAME, still-live scope, which does
+// NOT get replaced by this interaction -- so #editSave, #editCancel,
+// #editChannel, #editFormat and #dupBtn were still the very same DOM nodes,
+// and every use of "Marcar como publicado" + "Cancelar" added one more
+// addEventListener on top of the previous ones. A record edited after that
+// fired its Guardar/Duplicar handler multiple times per click, sending
+// several overlapping writes to GitHub at once -- which explains conflicts
+// severe enough to survive even the automatic retry (see github-write.js).
+function bindQuickPublish(scope, r, onSaved) {
   const quickBtn = scope.querySelector('#quickPublishBtn');
-  if (quickBtn && !quickBtn.disabled) {
-    quickBtn.addEventListener('click', () => {
-      const row = scope.querySelector('#quickPublishRow');
-      const msg = scope.querySelector('#quickPublishMsg');
-      row.innerHTML = `<span style="font-size:13px;color:var(--ink);align-self:center">Marcar ${esc(r.content_id)} como publicado agora?</span>
-        <button class="btn primary small" id="quickPublishYes">Sim, marcar</button>
-        <button class="btn small" id="quickPublishNo">Cancelar</button>`;
-      scope.querySelector('#quickPublishNo').addEventListener('click', () => {
-        row.innerHTML = `<button class="btn primary" id="quickPublishBtn">✅ Marcar como publicado agora</button>`;
-        bindEditActions(scope, r, onSaved, onDuplicated);
-      });
-      scope.querySelector('#quickPublishYes').addEventListener('click', () => {
-        const patch = { status: 'PUBLISHED', publication_status: 'PUBLISHED' };
-        if (!r.published_at) patch.published_at = new Date().toISOString();
-        savePatch(scope, r, onSaved, patch, msg, 'marcado como publicado manualmente');
-      });
+  if (!quickBtn || quickBtn.disabled) return;
+  quickBtn.addEventListener('click', () => {
+    const row = scope.querySelector('#quickPublishRow');
+    const msg = scope.querySelector('#quickPublishMsg');
+    row.innerHTML = `<span style="font-size:13px;color:var(--ink);align-self:center">Marcar ${esc(r.content_id)} como publicado agora?</span>
+      <button class="btn primary small" id="quickPublishYes">Sim, marcar</button>
+      <button class="btn small" id="quickPublishNo">Cancelar</button>`;
+    scope.querySelector('#quickPublishNo').addEventListener('click', () => {
+      row.innerHTML = `<button class="btn primary" id="quickPublishBtn">✅ Marcar como publicado agora</button>`;
+      bindQuickPublish(scope, r, onSaved);
     });
-  }
+    scope.querySelector('#quickPublishYes').addEventListener('click', () => {
+      const patch = { status: 'PUBLISHED', publication_status: 'PUBLISHED' };
+      if (!r.published_at) patch.published_at = new Date().toISOString();
+      savePatch(scope, r, onSaved, patch, msg, 'marcado como publicado manualmente');
+    });
+  });
+}
+
+export function bindEditActions(scope, r, onSaved, onDuplicated) {
+  bindQuickPublish(scope, r, onSaved);
 
   // Format options depend on the chosen channel (Instagram can't be
   // "Article", LinkedIn can't be "Reel") -- rebuild the format <select>
