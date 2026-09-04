@@ -248,8 +248,17 @@ export function renderRecordBody(r) {
   return head + body + governancePanel(r) + editPanel(r);
 }
 
-async function savePatch(scope, r, onSaved, patch, msgEl, busyBtns, commitNote) {
-  busyBtns.forEach(b => { b.disabled = true; });
+// Every save button across the drawer's three panels (Ações rápidas, Editar,
+// Texto) writes to the same calendar.json. Two saves in flight at once would
+// race on the file's sha, so ANY save disables ALL of them until it settles
+// -- not just the buttons in its own panel -- rather than relying only on
+// patchRecord's automatic retry.
+const ALL_SAVE_BTN_SELECTOR = '#editSave, #editCancel, #saveTextBtn, #quickPublishBtn, #quickPublishYes, #quickPublishNo';
+
+async function savePatch(scope, r, onSaved, patch, msgEl, commitNote) {
+  const allBtns = Array.from(scope.querySelectorAll(ALL_SAVE_BTN_SELECTOR));
+  const prevDisabled = allBtns.map(b => b.disabled);
+  allBtns.forEach(b => { b.disabled = true; });
   msgEl.style.color = 'var(--muted)';
   msgEl.textContent = 'A gravar no GitHub…';
   try {
@@ -262,7 +271,7 @@ async function savePatch(scope, r, onSaved, patch, msgEl, busyBtns, commitNote) 
   } catch (err) {
     msgEl.style.color = 'var(--danger)';
     msgEl.textContent = err.message;
-    busyBtns.forEach(b => { b.disabled = false; });
+    allBtns.forEach((b, i) => { b.disabled = prevDisabled[i]; });
   }
 }
 
@@ -283,7 +292,7 @@ export function bindEditActions(scope, r, onSaved) {
       scope.querySelector('#quickPublishYes').addEventListener('click', () => {
         const patch = { status: 'PUBLISHED', publication_status: 'PUBLISHED' };
         if (!r.published_at) patch.published_at = new Date().toISOString();
-        savePatch(scope, r, onSaved, patch, msg, [scope.querySelector('#quickPublishYes'), scope.querySelector('#quickPublishNo')], 'marcado como publicado manualmente');
+        savePatch(scope, r, onSaved, patch, msg, 'marcado como publicado manualmente');
       });
     });
   }
@@ -333,7 +342,7 @@ export function bindEditActions(scope, r, onSaved) {
       patch.publication_status = 'PUBLISHED';
       if (!r.published_at) patch.published_at = new Date().toISOString();
     }
-    savePatch(scope, r, onSaved, patch, msg, [btn, cancelBtn].filter(Boolean), 'data/estado/média/canal/formato/mídia');
+    savePatch(scope, r, onSaved, patch, msg, 'data/estado/média/canal/formato/mídia');
   });
 }
 
@@ -347,7 +356,7 @@ export function bindTextActions(scope, r, onSaved) {
     const msg = scope.querySelector('#textMsg');
     const copy_status = scope.querySelector('#copyStatusSel').value;
     const draft_text = scope.querySelector('#draftTextArea').value;
-    savePatch(scope, r, onSaved, { copy_status, draft_text }, msg, [btn], 'texto do post');
+    savePatch(scope, r, onSaved, { copy_status, draft_text }, msg, 'texto do post');
   });
 }
 

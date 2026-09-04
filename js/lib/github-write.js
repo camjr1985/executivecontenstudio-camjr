@@ -106,7 +106,13 @@ export async function fetchCalendarFile(token) {
 // content_id inside a freshly-fetched calendar.json, then commits the whole
 // file back with that record's sha. Never touches source_record (the
 // immutable original-import snapshot) or any other record.
-export async function patchRecord(token, contentId, patch, commitMessage) {
+//
+// _retried is internal: a 409 means the sha we fetched went stale between
+// our read and our write -- almost always because two saves from the same
+// browser (e.g. the "Texto" panel and the "Editar" panel) landed close
+// together, not a real external edit. That's transient, so we refetch and
+// try once more automatically before bothering the owner with an error.
+export async function patchRecord(token, contentId, patch, commitMessage, _retried = false) {
   const { data, sha } = await fetchCalendarFile(token);
   const idx = data.records.findIndex(r => r.content_id === contentId);
   if (idx === -1) throw new Error(`${contentId} nao foi encontrado no calendar.json atual.`);
@@ -131,7 +137,10 @@ export async function patchRecord(token, contentId, patch, commitMessage) {
     })
   });
 
-  if (res.status === 409) throw new Error('CONFLICT: o ficheiro no GitHub mudou entretanto. Feche e reabra o registo para tentar novamente com a versao mais recente.');
+  if (res.status === 409) {
+    if (!_retried) return patchRecord(token, contentId, patch, commitMessage, true);
+    throw new Error('CONFLICT: o ficheiro no GitHub mudou entretanto e a nova tentativa automatica tambem falhou. Feche e reabra o registo e tente de novo.');
+  }
   if (res.status === 401) throw new Error('Token invalido ou expirado.');
   if (res.status === 403) throw new Error('O token nao tem permissao de escrita neste repositorio.');
   if (!res.ok) {
