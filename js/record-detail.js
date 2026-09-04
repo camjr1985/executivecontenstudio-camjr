@@ -25,6 +25,20 @@ const COPY_STATUS_OPTIONS = [
   ['IN_PROGRESS', 'Em criação'],
   ['READY', 'Texto criado']
 ];
+// Channel/format are editable too -- the valid format list depends on the
+// channel (an Instagram record can't be "Article"), so the format <select>
+// is rebuilt whenever the channel changes. Reflects the combos actually
+// used today; Live only has one format so its record is effectively fixed.
+const CHANNEL_OPTIONS = ['LinkedIn', 'Instagram', 'Live'];
+const CHANNEL_FORMATS = {
+  LinkedIn: ['Post', 'Carousel', 'Article', 'News', 'Review'],
+  Instagram: ['Feed', 'Reel', 'Story'],
+  Live: ['Live Event']
+};
+function formatOptionsHtml(channel, current) {
+  const opts = CHANNEL_FORMATS[channel] || [];
+  return opts.map(f => `<option value="${f}"${f === current ? ' selected' : ''}>${esc(formatLabel(channel, f))}</option>`).join('');
+}
 
 function fullTextFor(r) {
   const c = r.copy; if (!c) return r.draft_text || '';
@@ -48,6 +62,7 @@ function governancePanel(r) {
       ${r.qc_status ? `<span class="badge">QC: ${esc(r.qc_status)}</span>` : ''}
     </div>
     <div class="field-block"><div class="fl-label">Buffer</div><div class="fl-value">${r.buffer?.mapping_status === 'NOT_MAPPED' || !r.buffer?.buffer_id ? 'Não conectado (dry-run apenas)' : esc(r.buffer.buffer_id)}</div></div>
+    ${r.media_asset ? `<div class="field-block"><div class="fl-label">Mídia — onde buscar/publicar</div><div class="fl-value">${esc(r.media_asset)}</div></div>` : ''}
     ${r.rationale ? `<div class="field-block"><div class="fl-label">Racional editorial</div><div class="fl-value">${esc(r.rationale)}</div></div>` : ''}
     ${r.primary_objective ? `<div class="field-block"><div class="fl-label">Objetivo primário</div><div class="fl-value">${esc(r.primary_objective)}</div></div>` : ''}
     ${r.campaign ? `<div class="field-block"><div class="fl-label">Campanha</div><div class="fl-value">${esc(r.campaign)}</div></div>` : ''}
@@ -82,6 +97,18 @@ function editPanel(r) {
       <input type="text" id="editTime" value="${esc(timeVal)}" placeholder="ex: 12:00" style="padding:8px 10px;border-radius:8px;border:1px solid var(--line);font:inherit;width:130px">
     </div>
     <div class="field-block">
+      <div class="fl-label">Canal</div>
+      <select id="editChannel" style="padding:8px 10px;border-radius:8px;border:1px solid var(--line);font:inherit">
+        ${CHANNEL_OPTIONS.map(ch => `<option value="${ch}"${r.channel === ch ? ' selected' : ''}>${esc(ch)}</option>`).join('')}
+      </select>
+    </div>
+    <div class="field-block">
+      <div class="fl-label">Formato</div>
+      <select id="editFormat" style="padding:8px 10px;border-radius:8px;border:1px solid var(--line);font:inherit">
+        ${formatOptionsHtml(r.channel, r.format)}
+      </select>
+    </div>
+    <div class="field-block">
       <div class="fl-label">Estado</div>
       <select id="editStatus" style="padding:8px 10px;border-radius:8px;border:1px solid var(--line);font:inherit">
         ${STATUS_OPTIONS.map(([v, l]) => `<option value="${v}"${r.status === v ? ' selected' : ''}>${esc(l)}</option>`).join('')}
@@ -92,6 +119,10 @@ function editPanel(r) {
       <select id="editMedia" style="padding:8px 10px;border-radius:8px;border:1px solid var(--line);font:inherit">
         ${MEDIA_OPTIONS.map(([v, l]) => `<option value="${v}"${r.media_status === v ? ' selected' : ''}>${esc(l)}</option>`).join('')}
       </select>
+    </div>
+    <div class="field-block">
+      <div class="fl-label">Onde buscar/publicar a mídia (link ou nota — opcional)</div>
+      <input type="text" id="editMediaAsset" value="${esc(r.media_asset || '')}" placeholder="ex: link da pasta/imagem, ou onde ir buscar/publicar" style="width:100%;padding:8px 10px;border-radius:8px;border:1px solid var(--line);font:inherit;box-sizing:border-box">
     </div>
     <div class="btn-row">
       <button class="btn primary" id="editSave">Guardar no GitHub</button>
@@ -257,14 +288,28 @@ export function bindEditActions(scope, r, onSaved) {
     });
   }
 
+  // Format options depend on the chosen channel (Instagram can't be
+  // "Article", LinkedIn can't be "Reel") -- rebuild the format <select>
+  // whenever the channel changes, defaulting to that channel's first format.
+  const channelSel = scope.querySelector('#editChannel');
+  const formatSel = scope.querySelector('#editFormat');
+  if (channelSel && formatSel) {
+    channelSel.addEventListener('change', () => {
+      formatSel.innerHTML = formatOptionsHtml(channelSel.value, null);
+    });
+  }
+
   // Cancel: discard unsaved edits in the form, back to the record's live values.
   const cancelBtn = scope.querySelector('#editCancel');
   if (cancelBtn) {
     cancelBtn.addEventListener('click', () => {
       scope.querySelector('#editDate').value = r.date;
       scope.querySelector('#editTime').value = isPlaceholderValue(r.time) ? '' : (r.time || '');
+      if (channelSel) channelSel.value = r.channel;
+      if (formatSel) formatSel.innerHTML = formatOptionsHtml(r.channel, r.format);
       scope.querySelector('#editStatus').value = r.status;
       scope.querySelector('#editMedia').value = r.media_status;
+      scope.querySelector('#editMediaAsset').value = r.media_asset || '';
       const msg = scope.querySelector('#editMsg');
       msg.textContent = '';
     });
@@ -276,16 +321,19 @@ export function bindEditActions(scope, r, onSaved) {
     const msg = scope.querySelector('#editMsg');
     const date = scope.querySelector('#editDate').value;
     const time = scope.querySelector('#editTime').value.trim();
+    const channel = channelSel ? channelSel.value : r.channel;
+    const format = formatSel ? formatSel.value : r.format;
     const status = scope.querySelector('#editStatus').value;
     const media_status = scope.querySelector('#editMedia').value;
+    const media_asset = scope.querySelector('#editMediaAsset').value.trim();
     if (!date) { msg.style.color = 'var(--danger)'; msg.textContent = 'Data é obrigatória.'; return; }
 
-    const patch = { date, status, media_status, time: time || 'TBD_OWNER' };
+    const patch = { date, status, media_status, time: time || 'TBD_OWNER', channel, format, media_asset: media_asset || null };
     if (status === 'PUBLISHED') {
       patch.publication_status = 'PUBLISHED';
       if (!r.published_at) patch.published_at = new Date().toISOString();
     }
-    savePatch(scope, r, onSaved, patch, msg, [btn, cancelBtn].filter(Boolean), 'data/estado/média');
+    savePatch(scope, r, onSaved, patch, msg, [btn, cancelBtn].filter(Boolean), 'data/estado/média/canal/formato/mídia');
   });
 }
 
