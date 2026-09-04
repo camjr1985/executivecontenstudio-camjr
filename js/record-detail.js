@@ -57,7 +57,16 @@ function editPanel(r) {
     </div>`;
   }
   const timeVal = isPlaceholderValue(r.time) ? '' : (r.time || '');
+  const alreadyPublished = r.status === 'PUBLISHED';
   return `<div class="panel" style="margin-top:16px">
+    <h4>Ações rápidas</h4>
+    <p style="font-size:12.5px;color:var(--muted);margin-bottom:10px">Para quando já publicou isto manualmente (fora da app) e só quer atualizar o registo.</p>
+    <div id="quickPublishRow" class="btn-row">
+      <button class="btn primary" id="quickPublishBtn"${alreadyPublished ? ' disabled' : ''}>${alreadyPublished ? '✅ Já marcado como publicado' : '✅ Marcar como publicado agora'}</button>
+    </div>
+    <div id="quickPublishMsg" style="font-size:12.5px;margin-top:8px"></div>
+  </div>
+  <div class="panel" style="margin-top:16px">
     <h4>Editar (grava no GitHub)</h4>
     <div class="field-block">
       <div class="fl-label">Data</div>
@@ -79,7 +88,10 @@ function editPanel(r) {
         ${MEDIA_OPTIONS.map(([v, l]) => `<option value="${v}"${r.media_status === v ? ' selected' : ''}>${esc(l)}</option>`).join('')}
       </select>
     </div>
-    <div class="btn-row"><button class="btn primary" id="editSave">Guardar no GitHub</button></div>
+    <div class="btn-row">
+      <button class="btn primary" id="editSave">Guardar no GitHub</button>
+      <button class="btn" id="editCancel">Cancelar</button>
+    </div>
     <div id="editMsg" style="font-size:12.5px;margin-top:8px"></div>
     <p style="font-size:11px;color:var(--faint);margin-top:8px">Marcar como "Publicado" aqui regista o estado editorial no calendário canónico — não publica sozinho em nenhum canal (Buffer continua desligado).</p>
   </div>`;
@@ -153,10 +165,62 @@ export function renderRecordBody(r) {
   return head + body + governancePanel(r) + editPanel(r);
 }
 
+async function savePatch(scope, r, onSaved, patch, msgEl, busyBtns, commitNote) {
+  busyBtns.forEach(b => { b.disabled = true; });
+  msgEl.style.color = 'var(--muted)';
+  msgEl.textContent = 'A gravar no GitHub…';
+  try {
+    const token = getToken();
+    const updated = await patchRecord(token, r.content_id, patch, `Atualizar ${r.content_id} via Fonte & Governança (${commitNote})`);
+    Object.assign(r, updated);
+    msgEl.style.color = 'var(--ok)';
+    msgEl.textContent = 'Gravado. O workflow de testes/validação vai correr antes de publicar. A atualizar…';
+    setTimeout(() => onSaved(), 900);
+  } catch (err) {
+    msgEl.style.color = 'var(--danger)';
+    msgEl.textContent = err.message;
+    busyBtns.forEach(b => { b.disabled = false; });
+  }
+}
+
 export function bindEditActions(scope, r, onSaved) {
+  // Quick action: mark published right now, without touching date/time/media.
+  const quickBtn = scope.querySelector('#quickPublishBtn');
+  if (quickBtn && !quickBtn.disabled) {
+    quickBtn.addEventListener('click', () => {
+      const row = scope.querySelector('#quickPublishRow');
+      const msg = scope.querySelector('#quickPublishMsg');
+      row.innerHTML = `<span style="font-size:13px;color:var(--ink);align-self:center">Marcar ${esc(r.content_id)} como publicado agora?</span>
+        <button class="btn primary small" id="quickPublishYes">Sim, marcar</button>
+        <button class="btn small" id="quickPublishNo">Cancelar</button>`;
+      scope.querySelector('#quickPublishNo').addEventListener('click', () => {
+        row.innerHTML = `<button class="btn primary" id="quickPublishBtn">✅ Marcar como publicado agora</button>`;
+        bindEditActions(scope, r, onSaved);
+      });
+      scope.querySelector('#quickPublishYes').addEventListener('click', () => {
+        const patch = { status: 'PUBLISHED', publication_status: 'PUBLISHED' };
+        if (!r.published_at) patch.published_at = new Date().toISOString();
+        savePatch(scope, r, onSaved, patch, msg, [scope.querySelector('#quickPublishYes'), scope.querySelector('#quickPublishNo')], 'marcado como publicado manualmente');
+      });
+    });
+  }
+
+  // Cancel: discard unsaved edits in the form, back to the record's live values.
+  const cancelBtn = scope.querySelector('#editCancel');
+  if (cancelBtn) {
+    cancelBtn.addEventListener('click', () => {
+      scope.querySelector('#editDate').value = r.date;
+      scope.querySelector('#editTime').value = isPlaceholderValue(r.time) ? '' : (r.time || '');
+      scope.querySelector('#editStatus').value = r.status;
+      scope.querySelector('#editMedia').value = r.media_status;
+      const msg = scope.querySelector('#editMsg');
+      msg.textContent = '';
+    });
+  }
+
   const btn = scope.querySelector('#editSave');
   if (!btn) return;
-  btn.addEventListener('click', async () => {
+  btn.addEventListener('click', () => {
     const msg = scope.querySelector('#editMsg');
     const date = scope.querySelector('#editDate').value;
     const time = scope.querySelector('#editTime').value.trim();
@@ -164,28 +228,12 @@ export function bindEditActions(scope, r, onSaved) {
     const media_status = scope.querySelector('#editMedia').value;
     if (!date) { msg.style.color = 'var(--danger)'; msg.textContent = 'Data é obrigatória.'; return; }
 
-    const patch = { date, status, media_status };
-    patch.time = time || 'TBD_OWNER';
+    const patch = { date, status, media_status, time: time || 'TBD_OWNER' };
     if (status === 'PUBLISHED') {
       patch.publication_status = 'PUBLISHED';
       if (!r.published_at) patch.published_at = new Date().toISOString();
     }
-
-    btn.disabled = true;
-    msg.style.color = 'var(--muted)';
-    msg.textContent = 'A gravar no GitHub…';
-    try {
-      const token = getToken();
-      const updated = await patchRecord(token, r.content_id, patch, `Atualizar ${r.content_id} via Fonte & Governança (data/estado/média)`);
-      Object.assign(r, updated);
-      msg.style.color = 'var(--ok)';
-      msg.textContent = 'Gravado. O workflow de testes/validação vai correr antes de publicar. A atualizar…';
-      setTimeout(() => onSaved(), 900);
-    } catch (err) {
-      msg.style.color = 'var(--danger)';
-      msg.textContent = err.message;
-      btn.disabled = false;
-    }
+    savePatch(scope, r, onSaved, patch, msg, [btn, cancelBtn].filter(Boolean), 'data/estado/média');
   });
 }
 
