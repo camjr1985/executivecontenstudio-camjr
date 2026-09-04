@@ -31,8 +31,8 @@
       "publication_url": null,
       "published_at": null,
       "created_at": "2026-09-02T00:00:00Z",
-      "updated_at": "2026-09-04T12:40:55.346Z",
-      "revision": 2,
+      "updated_at": "2026-09-04T14:30:56.296Z",
+      "revision": 3,
       "existing_or_new": "NEW",
       "decision": "NEW",
       "rationale": "Campaign kickoff anchor; sets up Live/PPL/Catarse without repeating across the month",
@@ -68,7 +68,9 @@
         "PUBLICATION_URL": "NOT_APPLICABLE",
         "BUFFER_ID": "NOT_APPLICABLE",
         "PUBLISHED_AT": "NOT_APPLICABLE"
-      }
+      },
+      "copy_status": "PENDING",
+      "draft_text": "LinkedIn:\n\nDo log à resposta: 6 etapas para transformar telemetria em ação com Microsoft Sentinel\n\nTer milhares de logs disponíveis não significa ter uma operação de segurança preparada para responder.\n\nO valor começa quando a telemetria certa é transformada em sinais relevantes, os sinais ganham contexto, a investigação sustenta uma decisão e, só então, a automação entra em cena.\n\nNeste carrossel, organizo esse caminho em seis etapas:\n\nTelemetria → Deteção → Incidente → Investigação → Decisão → Playbook\n\nO Microsoft Sentinel oferece recursos para suportar esse ciclo, mas a maturidade operacional depende também da qualidade dos dados, dos critérios de deteção, do contexto disponível e da governança aplicada à resposta.\n\nAutomatizar cedo demais pode apenas acelerar uma decisão ruim. Um bom playbook começa antes da automação: começa na qualidade daquilo que conseguimos observar e compreender.\n\nNa sua operação, onde está hoje o maior desafio: deteção, investigação ou automação?\n\n#MicrosoftSentinel #CyberSecurity #SOC #SIEM #IncidentResponse #SecOps #SecurityOperations\n\nInstagram:\n\nDo log à resposta: Sentinel em 6 etapas 🔐\n\nMais logs não significam, necessariamente, melhor deteção.\n\nUma operação de segurança madura precisa transformar telemetria em contexto e contexto em ação.\n\nO caminho pode ser estruturado em 6 etapas:\n\n01. Telemetria\n02. Deteção\n03. Incidente\n04. Investigação\n05. Decisão\n06. Playbook\n\nÉ nessa sequência que o Microsoft Sentinel pode ajudar a transformar sinais dispersos em uma resposta operacional mais consistente.\n\nE um ponto é fundamental: automação vem depois de contexto e decisão. Caso contrário, apenas automatizamos respostas que talvez nem devessem existir.\n\nDeslize pelo carrossel e acompanhe o fluxo completo. 👉\n\nEm qual dessas 6 etapas está o maior desafio da sua operação?\n\n#MicrosoftSentinel #CyberSecurity #SOC #SIEM #SecOps #IncidentResponse #CybersecurityAwareness"
     },
     {
       "content_id": "POST-009",
