@@ -161,7 +161,12 @@ export async function patchRecord(token, contentId, patch, commitMessage, _retri
 // Grows calendar.json by one record and keeps row_count in sync -- the
 // calendar is allowed to grow now that the app supports real duplication,
 // same as any other owner-authored write here.
-export async function duplicateRecord(token, sourceContentId, overrides) {
+//
+// _retried is internal, same reasoning as patchRecord's: a 409 here almost
+// always just means another write (e.g. an edit save that was still
+// in-flight, or a previous duplicate) landed a moment earlier -- refetch
+// and retry once automatically before surfacing an error to the owner.
+export async function duplicateRecord(token, sourceContentId, overrides, _retried = false) {
   const { data, sha } = await fetchCalendarFile(token);
   const source = data.records.find(r => r.content_id === sourceContentId);
   if (!source) throw new Error(`${sourceContentId} nao foi encontrado no calendar.json atual.`);
@@ -223,7 +228,10 @@ export async function duplicateRecord(token, sourceContentId, overrides) {
     })
   });
 
-  if (res.status === 409) throw new Error('CONFLICT: o ficheiro no GitHub mudou entretanto. Tente novamente.');
+  if (res.status === 409) {
+    if (!_retried) return duplicateRecord(token, sourceContentId, overrides, true);
+    throw new Error('CONFLICT: o ficheiro no GitHub mudou entretanto e a nova tentativa automatica tambem falhou. Feche e reabra o registo e tente de novo.');
+  }
   if (res.status === 401) throw new Error('Token invalido ou expirado.');
   if (res.status === 403) throw new Error('O token nao tem permissao de escrita neste repositorio.');
   if (!res.ok) {
