@@ -1,7 +1,25 @@
-import { esc, nl2br, fmtDateTime, copyText } from './lib/util.js';
+import { esc, nl2br, fmtDateTime, copyText, isPlaceholderValue } from './lib/util.js';
 import { svgMarkup } from './lib/covers.js';
 import { toneCheckHtml } from './lib/tone-check.js';
 import { coverFor, formatIcon, formatLabel, statusBadge, approvalBadge, mediaBadge, displayTitle } from './components.js';
+import { isConnected, getToken, patchRecord } from './lib/github-write.js';
+
+const STATUS_OPTIONS = [
+  ['DRAFT', 'Rascunho (a aguardar texto)'],
+  ['PROPOSED', 'Proposto'],
+  ['READY', 'Pronto'],
+  ['SCHEDULED', 'Agendado'],
+  ['APPROVED', 'Aprovado'],
+  ['PUBLISHED', 'Publicado'],
+  ['BLOCKED', 'Bloqueado'],
+  ['CONFIRMED', 'Confirmado'],
+  ['NOT_APPLICABLE', 'Não aplicável']
+];
+const MEDIA_OPTIONS = [
+  ['PENDING_MEDIA', 'A aguardar média'],
+  ['READY', 'Média pronta'],
+  ['DONE', 'Média concluída']
+];
 
 function fullTextFor(r) {
   const c = r.copy; if (!c) return '';
@@ -28,6 +46,42 @@ function governancePanel(r) {
     ${r.rationale ? `<div class="field-block"><div class="fl-label">Racional editorial</div><div class="fl-value">${esc(r.rationale)}</div></div>` : ''}
     ${r.primary_objective ? `<div class="field-block"><div class="fl-label">Objetivo primário</div><div class="fl-value">${esc(r.primary_objective)}</div></div>` : ''}
     ${r.campaign ? `<div class="field-block"><div class="fl-label">Campanha</div><div class="fl-value">${esc(r.campaign)}</div></div>` : ''}
+  </div>`;
+}
+
+function editPanel(r) {
+  if (!isConnected()) {
+    return `<div class="panel" style="margin-top:16px">
+      <h4>Editar</h4>
+      <p style="font-size:13px;color:var(--muted)">Ligue o GitHub em <a href="#/governance">Fonte &amp; Governança</a> para poder alterar data, estado e média diretamente daqui — grava mesmo no GitHub, com o workflow de testes a validar antes de publicar.</p>
+    </div>`;
+  }
+  const timeVal = isPlaceholderValue(r.time) ? '' : (r.time || '');
+  return `<div class="panel" style="margin-top:16px">
+    <h4>Editar (grava no GitHub)</h4>
+    <div class="field-block">
+      <div class="fl-label">Data</div>
+      <input type="date" id="editDate" value="${esc(r.date)}" style="padding:8px 10px;border-radius:8px;border:1px solid var(--line);font:inherit">
+    </div>
+    <div class="field-block">
+      <div class="fl-label">Hora (HH:MM — deixe em branco se ainda por confirmar)</div>
+      <input type="text" id="editTime" value="${esc(timeVal)}" placeholder="ex: 12:00" style="padding:8px 10px;border-radius:8px;border:1px solid var(--line);font:inherit;width:130px">
+    </div>
+    <div class="field-block">
+      <div class="fl-label">Estado</div>
+      <select id="editStatus" style="padding:8px 10px;border-radius:8px;border:1px solid var(--line);font:inherit">
+        ${STATUS_OPTIONS.map(([v, l]) => `<option value="${v}"${r.status === v ? ' selected' : ''}>${esc(l)}</option>`).join('')}
+      </select>
+    </div>
+    <div class="field-block">
+      <div class="fl-label">Média</div>
+      <select id="editMedia" style="padding:8px 10px;border-radius:8px;border:1px solid var(--line);font:inherit">
+        ${MEDIA_OPTIONS.map(([v, l]) => `<option value="${v}"${r.media_status === v ? ' selected' : ''}>${esc(l)}</option>`).join('')}
+      </select>
+    </div>
+    <div class="btn-row"><button class="btn primary" id="editSave">Guardar no GitHub</button></div>
+    <div id="editMsg" style="font-size:12.5px;margin-top:8px"></div>
+    <p style="font-size:11px;color:var(--faint);margin-top:8px">Marcar como "Publicado" aqui regista o estado editorial no calendário canónico — não publica sozinho em nenhum canal (Buffer continua desligado).</p>
   </div>`;
 }
 
@@ -96,7 +150,43 @@ export function renderRecordBody(r) {
     body = pendingCopyBlock();
   }
 
-  return head + body + governancePanel(r);
+  return head + body + governancePanel(r) + editPanel(r);
+}
+
+export function bindEditActions(scope, r, onSaved) {
+  const btn = scope.querySelector('#editSave');
+  if (!btn) return;
+  btn.addEventListener('click', async () => {
+    const msg = scope.querySelector('#editMsg');
+    const date = scope.querySelector('#editDate').value;
+    const time = scope.querySelector('#editTime').value.trim();
+    const status = scope.querySelector('#editStatus').value;
+    const media_status = scope.querySelector('#editMedia').value;
+    if (!date) { msg.style.color = 'var(--danger)'; msg.textContent = 'Data é obrigatória.'; return; }
+
+    const patch = { date, status, media_status };
+    patch.time = time || 'TBD_OWNER';
+    if (status === 'PUBLISHED') {
+      patch.publication_status = 'PUBLISHED';
+      if (!r.published_at) patch.published_at = new Date().toISOString();
+    }
+
+    btn.disabled = true;
+    msg.style.color = 'var(--muted)';
+    msg.textContent = 'A gravar no GitHub…';
+    try {
+      const token = getToken();
+      const updated = await patchRecord(token, r.content_id, patch, `Atualizar ${r.content_id} via Fonte & Governança (data/estado/média)`);
+      Object.assign(r, updated);
+      msg.style.color = 'var(--ok)';
+      msg.textContent = 'Gravado. O workflow de testes/validação vai correr antes de publicar. A atualizar…';
+      setTimeout(() => onSaved(), 900);
+    } catch (err) {
+      msg.style.color = 'var(--danger)';
+      msg.textContent = err.message;
+      btn.disabled = false;
+    }
+  });
 }
 
 export function bindRecordActions(scope, r) {

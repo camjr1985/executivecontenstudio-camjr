@@ -1,5 +1,5 @@
 import { esc, pad, DOW, fmtMonthYear, fmtDateTime, capitalize, isPlaceholderValue } from '../lib/util.js';
-import { formatIcon, statusBadge, emptyState, recordCard, bindRecordCards, displayTitle } from '../components.js';
+import { formatIcon, formatLabel, channelIcon, statusBadge, emptyState, recordCard, bindRecordCards, displayTitle } from '../components.js';
 import { pageHead, openRecordDrawer } from './_shared.js';
 
 let mode = 'month'; // 'month' | 'list'
@@ -76,7 +76,8 @@ function monthGrid(year, month, records) {
       const cls = e.channel === 'Live' ? 'c-live' : e.channel === 'Instagram' ? 'c-instagram' : 'c-linkedin';
       const timeLabel = isPlaceholderValue(e.time) ? '' : esc(e.time) + ' ';
       const title = displayTitle(e);
-      return `<div class="cal-event ${cls}" data-cal-open="${esc(e.content_id)}" title="${esc(title)}${isPlaceholderValue(e.time) ? ' (horário a confirmar)' : ''}">${formatIcon(e.channel, e.format)} ${timeLabel}${esc(title)}</div>`;
+      const chIcon = channelIcon(e.channel);
+      return `<div class="cal-event ${cls}" data-cal-open="${esc(e.content_id)}" title="${esc(e.channel)} · ${esc(formatLabel(e.channel, e.format))} · ${esc(title)}${isPlaceholderValue(e.time) ? ' (horário a confirmar)' : ''}">${chIcon ? chIcon + ' ' : ''}${formatIcon(e.channel, e.format)} ${timeLabel}${esc(title)}</div>`;
     }).join('')}</div>`;
   }
   return `<div class="cal-nav">
@@ -93,7 +94,7 @@ function listView(records) {
   return `<div class="table-wrap"><table><thead><tr><th>Data</th><th>Canal</th><th>Formato</th><th>Título</th><th>Campanha</th><th>Estado</th><th>Owner gate</th></tr></thead><tbody>
     ${sorted.map(r => `<tr data-open-record="${esc(r.content_id)}">
       <td>${esc(fmtDateTime(r.date, r.time))}</td>
-      <td>${esc(r.channel)}</td>
+      <td>${channelIcon(r.channel) ? channelIcon(r.channel) + ' ' : ''}${esc(r.channel)}</td>
       <td>${formatIcon(r.channel, r.format)} ${esc(r.format)}</td>
       <td>${esc(displayTitle(r))}</td>
       <td>${r.campaign ? esc(r.campaign) : '—'}</td>

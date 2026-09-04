@@ -16,6 +16,14 @@ export function formatLabel(channel, format) {
   return format;
 }
 
+// A small extra glyph identifying the channel itself, shown alongside the
+// format icon so a day with several items reads at a glance -- LinkedIn vs
+// Instagram vs Live -- before even reading the title. Live already has its
+// own unmistakable icon via formatIcon(), so it's left out here to avoid
+// showing the same glyph twice.
+const CHANNEL_GLYPH = { LinkedIn: '💼', Instagram: '📷' };
+export function channelIcon(channel) { return CHANNEL_GLYPH[channel] || ''; }
+
 const STATUS_BADGE = {
   DRAFT: 'warn', PROPOSED: 'warn', READY: 'ok', SCHEDULED: 'blue', APPROVED: 'ok',
   PUBLISHED: 'ok', BLOCKED: 'danger'
