@@ -27,14 +27,21 @@ const COPY_STATUS_OPTIONS = [
 ];
 // Channel/format are editable too -- the valid format list depends on the
 // channel (an Instagram record can't be "Article"), so the format <select>
-// is rebuilt whenever the channel changes. Reflects the combos actually
-// used today; Live only has one format so its record is effectively fixed.
-const CHANNEL_OPTIONS = ['LinkedIn', 'Instagram', 'Live'];
+// is rebuilt whenever the channel changes.
+//
+// Live is deliberately not offered as a switch/duplicate target: only
+// LinkedIn and Instagram are in active use for that right now. The one real
+// Live record still edits fine -- channelOptionsFor() adds its own current
+// channel back into its own dropdown so it's never silently reassigned.
+const CHANNEL_OPTIONS = ['LinkedIn', 'Instagram'];
 const CHANNEL_FORMATS = {
   LinkedIn: ['Post', 'Carousel', 'Article', 'News', 'Review'],
   Instagram: ['Feed', 'Reel', 'Story'],
   Live: ['Live Event']
 };
+function channelOptionsFor(current) {
+  return CHANNEL_OPTIONS.includes(current) ? CHANNEL_OPTIONS : [...CHANNEL_OPTIONS, current];
+}
 function formatOptionsHtml(channel, current) {
   const opts = CHANNEL_FORMATS[channel] || [];
   return opts.map(f => `<option value="${f}"${f === current ? ' selected' : ''}>${esc(formatLabel(channel, f))}</option>`).join('');
@@ -136,7 +143,7 @@ function editPanel(r) {
     <div class="field-block">
       <div class="fl-label">Canal</div>
       <select id="editChannel" style="padding:8px 10px;border-radius:8px;border:1px solid var(--line);font:inherit">
-        ${CHANNEL_OPTIONS.map(ch => `<option value="${ch}"${r.channel === ch ? ' selected' : ''}>${esc(ch)}</option>`).join('')}
+        ${channelOptionsFor(r.channel).map(ch => `<option value="${ch}"${r.channel === ch ? ' selected' : ''}>${esc(ch)}</option>`).join('')}
       </select>
     </div>
     <div class="field-block">
@@ -286,10 +293,21 @@ async function savePatch(scope, r, onSaved, patch, msgEl, commitNote) {
   const unlock = lockSaveButtons(scope);
   msgEl.style.color = 'var(--muted)';
   msgEl.textContent = 'A gravar no GitHub…';
+  // r.copy (real migrated text, e.g. a LinkedIn Carousel's content_library
+  // entry) is joined client-side by content_id, never stored in
+  // calendar.json itself -- so patchRecord's response never touches it, and
+  // Object.assign below would otherwise leave it in place forever. If this
+  // save changes channel or format, that old copy no longer matches what the
+  // record now is, so it's cleared here (in memory only, nothing to write to
+  // GitHub for this) -- this is what makes "Estado do texto"/"Texto" appear
+  // for a record that just moved channel, instead of staying hidden behind
+  // stale legacy content for the channel it used to be.
+  const channelOrFormatChanged = patch.channel !== undefined && (patch.channel !== r.channel || patch.format !== r.format);
   try {
     const token = getToken();
     const updated = await patchRecord(token, r.content_id, patch, `Atualizar ${r.content_id} via Fonte & Governança (${commitNote})`);
     Object.assign(r, updated);
+    if (channelOrFormatChanged) r.copy = null;
     msgEl.style.color = 'var(--ok)';
     msgEl.textContent = 'Gravado. O workflow de testes/validação vai correr antes de publicar. A atualizar…';
     setTimeout(() => onSaved(), 900);
