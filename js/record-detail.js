@@ -98,8 +98,16 @@ function editPanel(r) {
   // "Guardar no GitHub" button as everything else -- they used to be a
   // separate panel with its own save button, and saving one would silently
   // discard whatever the owner had just typed, unsaved, in the other.
+  //
+  // Always rendered (never omitted), just hidden via display:none when not
+  // needed at load -- bindEditActions shows it live the moment Canal/Formato
+  // is changed to something that no longer matches this record's real copy,
+  // instead of only appearing after a save+reload round trip. Without this,
+  // picking "Instagram" here didn't reveal anywhere to type the Instagram
+  // text until after saving once first.
   const copyStatus = r.copy_status || 'PENDING';
-  const textFieldsHtml = needsTextFields(r) ? `
+  const textFieldsHtml = `
+    <div id="textFieldsWrap" style="${needsTextFields(r) ? '' : 'display:none'}">
     <div class="field-block">
       <div class="fl-label">Estado do texto</div>
       <select id="editCopyStatus" style="padding:8px 10px;border-radius:8px;border:1px solid var(--line);font:inherit">
@@ -109,7 +117,8 @@ function editPanel(r) {
     <div class="field-block">
       <div class="fl-label">Texto (cole aqui quando estiver pronto)</div>
       <textarea id="editDraftText" rows="8" placeholder="Cole aqui o texto final do post…" style="width:100%;padding:10px;border-radius:8px;border:1px solid var(--line);font:inherit;resize:vertical;box-sizing:border-box">${esc(r.draft_text || '')}</textarea>
-    </div>` : '';
+    </div>
+    </div>`;
 
   return `<div class="panel" style="margin-top:16px">
     <h4>Ações rápidas</h4>
@@ -345,10 +354,27 @@ export function bindEditActions(scope, r, onSaved, onDuplicated) {
   // whenever the channel changes, defaulting to that channel's first format.
   const channelSel = scope.querySelector('#editChannel');
   const formatSel = scope.querySelector('#editFormat');
+  const textFieldsWrap = scope.querySelector('#textFieldsWrap');
+
+  // Show "Estado do texto"/"Texto" the instant Canal/Formato is changed away
+  // from this record's real saved values -- not just once it's saved and
+  // reloaded. Whatever old copy exists no longer applies to a different
+  // channel/format, same reasoning as savePatch clearing r.copy on save.
+  function updateTextFieldsVisibility() {
+    if (!textFieldsWrap) return;
+    const curChannel = channelSel ? channelSel.value : r.channel;
+    const curFormat = formatSel ? formatSel.value : r.format;
+    const structurallyEligible = curFormat !== 'News' && curFormat !== 'Review' && curChannel !== 'Live';
+    const changed = curChannel !== r.channel || curFormat !== r.format;
+    textFieldsWrap.style.display = structurallyEligible && (!r.copy || changed) ? '' : 'none';
+  }
+
   if (channelSel && formatSel) {
     channelSel.addEventListener('change', () => {
       formatSel.innerHTML = formatOptionsHtml(channelSel.value, null);
+      updateTextFieldsVisibility();
     });
+    formatSel.addEventListener('change', updateTextFieldsVisibility);
   }
 
   // Cancel: discard unsaved edits in the form, back to the record's live values.
@@ -366,6 +392,7 @@ export function bindEditActions(scope, r, onSaved, onDuplicated) {
       scope.querySelector('#editMediaAsset').value = r.media_asset || '';
       if (copyStatusSel) copyStatusSel.value = r.copy_status || 'PENDING';
       if (draftTextArea) draftTextArea.value = r.draft_text || '';
+      updateTextFieldsVisibility();
       const msg = scope.querySelector('#editMsg');
       msg.textContent = '';
     });
