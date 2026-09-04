@@ -1,6 +1,6 @@
 import { esc } from '../lib/util.js';
 import { openDrawer, drawerShell, formatIcon } from '../components.js';
-import { renderRecordBody, bindRecordActions, bindEditActions } from '../record-detail.js';
+import { renderRecordBody, bindRecordActions, bindEditActions, bindTextActions } from '../record-detail.js';
 import { childrenOf } from '../data.js';
 
 export function pageHead(eyebrow, title, sub, actionsHtml) {
@@ -17,6 +17,7 @@ export function openRecordDrawer(store, id) {
   const scope = document.getElementById('drawer');
   bindRecordActions(scope, r);
   bindEditActions(scope, r, () => openRecordDrawer(store, id));
+  bindTextActions(scope, r, () => openRecordDrawer(store, id));
 }
 
 // A campaign/Live content cascade, rendered as CAMPAIGN -> POST -> STORY -> ... chips.

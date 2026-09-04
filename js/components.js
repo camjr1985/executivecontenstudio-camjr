@@ -48,6 +48,23 @@ export function mediaBadge(mediaStatus) {
   return `<span class="badge ${cls}">${esc(mediaStatus.replace(/_/g, ' '))}</span>`;
 }
 
+// Text-authoring status for records that don't yet have real, migrated copy
+// (r.copy). A record that already has structured copy (migrated legacy
+// content) counts as READY -- it has real text, just not through this field.
+// content_id -> owner-authored copy_status / draft_text is opt-in and only
+// ever written by the owner via the record drawer (Fonte & Governança must
+// be connected), same as date/estado/média.
+const COPY_STATUS_LABEL = { PENDING: 'Por escrever', IN_PROGRESS: 'Em criação', READY: 'Texto criado' };
+export function textStatusOf(r) {
+  if (r.copy) return 'READY';
+  return r.copy_status || 'PENDING';
+}
+export function copyStatusBadge(r) {
+  const status = textStatusOf(r);
+  const cls = status === 'READY' ? 'ok' : status === 'IN_PROGRESS' ? 'blue' : 'warn';
+  return `<span class="badge ${cls}">${esc(COPY_STATUS_LABEL[status] || status)}</span>`;
+}
+
 // The master-calendar workbook used bracketed placeholder titles like
 // "(existing — Cloud)" for some EXISTING Oct-Dec records, even where the real
 // legacy title is known (joined via content_library.json by the same

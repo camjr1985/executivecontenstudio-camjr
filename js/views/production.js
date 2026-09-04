@@ -1,5 +1,5 @@
 import { esc, fmtDateTime } from '../lib/util.js';
-import { formatIcon, statusBadge, mediaBadge, isIgnored, emptyState, displayTitle } from '../components.js';
+import { formatIcon, statusBadge, mediaBadge, copyStatusBadge, textStatusOf, isIgnored, emptyState, displayTitle } from '../components.js';
 import { pageHead, openRecordDrawer } from './_shared.js';
 
 let filterKey = 'all';
@@ -13,6 +13,7 @@ export function renderProduction(root, store, navigate) {
   // pending-work filter and gets its own chip instead.
   const filters = [
     { key: 'all', label: 'Todos', test: () => true },
+    { key: 'text', label: 'Texto pendente', test: r => !isIgnored(r) && textStatusOf(r) !== 'READY' },
     { key: 'media', label: 'Media pendente', test: r => !isIgnored(r) && r.media_status === 'PENDING_MEDIA' },
     { key: 'qc', label: 'QC pendente', test: r => !isIgnored(r) && (!r.qc_status || r.qc_status === 'PENDING') },
     { key: 'owner', label: 'Aprovação do owner', test: r => !isIgnored(r) && r.owner_approval_required },
@@ -37,7 +38,7 @@ export function renderProduction(root, store, navigate) {
     const rows = store.records.filter(f.test).sort((a, b) => a.date < b.date ? -1 : 1);
     const body = document.getElementById('prodBody');
     body.innerHTML = rows.length ? `<div class="table-wrap"><table><thead><tr>
-      <th>Content ID</th><th>Data</th><th>Formato</th><th>Título</th><th>Readiness</th><th>Media</th><th>QC</th><th>Aprovação</th><th>Publicação</th>
+      <th>Content ID</th><th>Data</th><th>Formato</th><th>Título</th><th>Readiness</th><th>Texto</th><th>Media</th><th>QC</th><th>Aprovação</th><th>Publicação</th>
       </tr></thead><tbody>${rows.map(r => {
         const na = isIgnored(r);
         return `<tr data-open="${esc(r.content_id)}"${na ? ' class="row-ignored"' : ''}>
@@ -46,6 +47,7 @@ export function renderProduction(root, store, navigate) {
         <td>${formatIcon(r.channel, r.format)} ${esc(r.format)}</td>
         <td>${esc(displayTitle(r))}</td>
         <td>${statusBadge(r.status)}</td>
+        <td>${na ? '<span class="badge">—</span>' : copyStatusBadge(r)}</td>
         <td>${na ? '<span class="badge">—</span>' : mediaBadge(r.media_status)}</td>
         <td>${na ? '<span class="badge">—</span>' : (r.qc_status ? esc(r.qc_status) : '<span class="badge warn">PENDING</span>')}</td>
         <td>${na ? '<span class="badge">—</span>' : (r.owner_approval_required ? '<span class="badge danger">Owner gate</span>' : '<span class="badge ok">Não requerida</span>')}</td>

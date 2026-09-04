@@ -1,7 +1,7 @@
 import { esc, nl2br, fmtDateTime, copyText, isPlaceholderValue } from './lib/util.js';
 import { svgMarkup } from './lib/covers.js';
 import { toneCheckHtml } from './lib/tone-check.js';
-import { coverFor, formatIcon, formatLabel, statusBadge, approvalBadge, mediaBadge, displayTitle } from './components.js';
+import { coverFor, formatIcon, formatLabel, statusBadge, approvalBadge, mediaBadge, textStatusOf, displayTitle } from './components.js';
 import { isConnected, getToken, patchRecord } from './lib/github-write.js';
 
 const STATUS_OPTIONS = [
@@ -20,9 +20,14 @@ const MEDIA_OPTIONS = [
   ['READY', 'Média pronta'],
   ['DONE', 'Média concluída']
 ];
+const COPY_STATUS_OPTIONS = [
+  ['PENDING', 'Por escrever'],
+  ['IN_PROGRESS', 'Em criação'],
+  ['READY', 'Texto criado']
+];
 
 function fullTextFor(r) {
-  const c = r.copy; if (!c) return '';
+  const c = r.copy; if (!c) return r.draft_text || '';
   if (c.kind === 'posts') return [c.hook, c.text, c.cta, c.hashtags].filter(Boolean).join('\n\n');
   if (c.kind === 'articles') return [displayTitle(r), '', c.body, '', c.hashtags].filter(v => v !== undefined).join('\n');
   if (c.kind === 'carousels') {
@@ -101,6 +106,51 @@ function pendingCopyBlock() {
   return `<div class="pending-copy">✒️ Copy ainda não redigida — este é um conceito de planeamento aprovado para a data, não texto final. Nada foi inventado aqui.</div>`;
 }
 
+// For NEW records that haven't had their copy migrated/written yet: a status
+// (Por escrever / Em criação / Texto criado) plus a place to paste the real
+// text once it exists elsewhere. Nothing here is generated or guessed --
+// copy_status/draft_text are only ever set by the owner, saved straight to
+// GitHub, same opt-in path as date/estado/média.
+function textAuthoringBlock(r) {
+  const status = r.copy_status || 'PENDING';
+  const hasDraft = !!(r.draft_text && r.draft_text.trim());
+  const isReady = status === 'READY' && hasDraft;
+  const statusLabel = COPY_STATUS_OPTIONS.find(([v]) => v === status)?.[1] || status;
+
+  const warning = isReady
+    ? `<p style="font-size:12px;color:var(--muted);margin-bottom:10px">✒️ Texto escrito/colado manualmente pelo owner — não passou pelo processo de migração dos registos legados.</p>`
+    : `<div class="pending-copy">✒️ Copy ainda não redigida — este é um conceito de planeamento aprovado para a data, não texto final. Nada foi inventado aqui.</div>`;
+
+  const savedText = hasDraft
+    ? `<pre>${esc(r.draft_text)}</pre><div class="btn-row"><button class="btn" data-act="copy-draft">Copiar texto</button></div>`
+    : '';
+
+  if (!isConnected()) {
+    return `${warning}${savedText}
+      <div class="field-block"><div class="fl-label">Estado do texto</div><div class="fl-value">${esc(statusLabel)}</div></div>
+      <p style="font-size:12.5px;color:var(--muted)">Ligue o GitHub em <a href="#/governance">Fonte &amp; Governança</a> para escrever ou colar o texto aqui.</p>`;
+  }
+
+  return `${warning}${savedText}
+    <div class="panel" style="margin-top:12px">
+      <h4>Texto</h4>
+      <div class="field-block">
+        <div class="fl-label">Estado do texto</div>
+        <select id="copyStatusSel" style="padding:8px 10px;border-radius:8px;border:1px solid var(--line);font:inherit">
+          ${COPY_STATUS_OPTIONS.map(([v, l]) => `<option value="${v}"${status === v ? ' selected' : ''}>${esc(l)}</option>`).join('')}
+        </select>
+      </div>
+      <div class="field-block">
+        <div class="fl-label">Texto (cole aqui quando estiver pronto)</div>
+        <textarea id="draftTextArea" rows="8" placeholder="Cole aqui o texto final do post…" style="width:100%;padding:10px;border-radius:8px;border:1px solid var(--line);font:inherit;resize:vertical;box-sizing:border-box">${esc(r.draft_text || '')}</textarea>
+      </div>
+      <div class="btn-row">
+        <button class="btn primary" id="saveTextBtn">Guardar texto no GitHub</button>
+      </div>
+      <div id="textMsg" style="font-size:12.5px;margin-top:8px"></div>
+    </div>`;
+}
+
 function newsReserveBlock() {
   return `<div class="pending-copy">📰 Slot reservado — ainda não é conteúdo editorial confirmado. Precisa de: fonte, seleção de tópico, comentário executivo e decisão do owner antes de avançar.</div>`;
 }
@@ -158,8 +208,10 @@ export function renderRecordBody(r) {
       </div>`;
   } else if (r.format === 'Review') {
     body = `<div class="pending-copy">📊 Ver detalhe completo em Revisões Mensais.</div>`;
-  } else {
+  } else if (r.channel === 'Live') {
     body = pendingCopyBlock();
+  } else {
+    body = textAuthoringBlock(r);
   }
 
   return head + body + governancePanel(r) + editPanel(r);
@@ -237,8 +289,23 @@ export function bindEditActions(scope, r, onSaved) {
   });
 }
 
+// Saves copy_status/draft_text -- the owner's own text-in-progress or
+// pasted-in final text -- separately from the date/estado/média form above,
+// so writing one doesn't require touching the other.
+export function bindTextActions(scope, r, onSaved) {
+  const btn = scope.querySelector('#saveTextBtn');
+  if (!btn) return;
+  btn.addEventListener('click', () => {
+    const msg = scope.querySelector('#textMsg');
+    const copy_status = scope.querySelector('#copyStatusSel').value;
+    const draft_text = scope.querySelector('#draftTextArea').value;
+    savePatch(scope, r, onSaved, { copy_status, draft_text }, msg, [btn], 'texto do post');
+  });
+}
+
 export function bindRecordActions(scope, r) {
   scope.querySelector('[data-act="copy"]')?.addEventListener('click', () => copyText(fullTextFor(r)));
+  scope.querySelector('[data-act="copy-draft"]')?.addEventListener('click', () => copyText(r.draft_text || ''));
   scope.querySelector('[data-act="tone"]')?.addEventListener('click', () => {
     const out = scope.querySelector('#toneOut');
     const text = r.copy?.kind === 'articles' ? r.copy.body : [r.copy?.hook, r.copy?.text, r.copy?.cta, r.copy?.summary].filter(Boolean).join('\n\n');
