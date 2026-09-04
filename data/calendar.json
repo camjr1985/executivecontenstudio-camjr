@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "source_workbook": "ECS_Master_Calendar_Sep-Dec2026_FINAL_REVIEW.xlsx",
   "source_sha256": "4ed1c1bb9e79ded9e59808ecd42896ad7f927f98050303ccca743ffd4e5ee2c1",
-  "row_count": 79,
+  "row_count": 80,
   "records": [
     {
       "content_id": "LI-20260901-001",
@@ -5219,6 +5219,44 @@
         "BUFFER_ID": "NOT_APPLICABLE",
         "PUBLISHED_AT": "NOT_APPLICABLE"
       }
+    },
+    {
+      "content_id": "CAR-003-IG",
+      "date": "2026-09-04",
+      "time": "12:00",
+      "timezone": "Europe/Lisbon",
+      "channel": "Instagram",
+      "format": "Feed",
+      "title": "Sentinel: do log ao playbook em 6 etapas (cópia — Instagram)",
+      "editorial_pillar": "Technology",
+      "campaign": null,
+      "market": "NOT_APPLICABLE",
+      "language": "PT",
+      "parent_content_id": "CAR-003",
+      "status": "DRAFT",
+      "owner_approval_required": true,
+      "buffer_eligible": "NO",
+      "automation_eligible": "NO",
+      "media_required": "YES",
+      "media_format": "Carousel",
+      "media_status": "PENDING_MEDIA",
+      "media_asset": "C:\\Users\\Carlos Junior\\OneDrive - EDP\\Documents\\Ebooks_Livros\\Arquivos_Edicao_Video\\content-os\\production",
+      "qc_status": null,
+      "buffer_id": null,
+      "publication_status": "PENDING",
+      "publication_url": null,
+      "published_at": null,
+      "created_at": "2026-09-04T15:10:30.665Z",
+      "updated_at": "2026-09-04T15:10:30.665Z",
+      "revision": 1,
+      "existing_or_new": "NEW",
+      "decision": "NEW",
+      "rationale": "Duplicado de CAR-003 para Instagram via Fonte & Governança",
+      "original_date": null,
+      "campaign_date_dependency": "NO",
+      "primary_objective": null,
+      "copy_status": "PENDING",
+      "draft_text": ""
     }
   ]
 }
