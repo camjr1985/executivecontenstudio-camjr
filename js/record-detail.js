@@ -121,7 +121,7 @@ function editPanel(r) {
   </div>
   <div class="panel" style="margin-top:16px">
     <h4>Duplicar para outro canal</h4>
-    <p style="font-size:12.5px;color:var(--muted);margin-bottom:10px">Cria um novo registo ligado a este (mesma data/pilar/campanha), no canal escolhido, pronto para ter o seu próprio texto e média.</p>
+    <p style="font-size:12.5px;color:var(--muted);margin-bottom:10px">Cria um novo registo ligado a este (mesma data/pilar/campanha), no canal escolhido — com o texto atual já pré-preenchido, para adaptares em vez de escrever do zero. Média e estado começam por preencher de novo.</p>
     <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
       <select id="dupChannel" style="padding:8px 10px;border-radius:8px;border:1px solid var(--line);font:inherit">
         ${otherChannels.map(ch => `<option value="${ch}">${esc(ch)}</option>`).join('')}
@@ -213,7 +213,7 @@ function newsReserveBlock() {
   return `<div class="pending-copy">📰 Slot reservado — ainda não é conteúdo editorial confirmado. Precisa de: fonte, seleção de tópico, comentário executivo e decisão do owner antes de avançar.</div>`;
 }
 
-export function renderRecordBody(r) {
+export function renderRecordBody(r, linkedHtml = '') {
   const kindLabel = formatLabel(r.channel, r.format);
   let head = `<img class="drawer-cover" src="${coverFor(r)}" alt="">
     <div class="badge-row">
@@ -222,7 +222,7 @@ export function renderRecordBody(r) {
       ${r.editorial_pillar ? `<span class="badge gold">${esc(r.editorial_pillar)}</span>` : ''}
     </div>
     <h2>${esc(displayTitle(r))}</h2>
-    <div class="schedule-line">📅 ${esc(fmtDateTime(r.date, r.time))} (${esc(r.timezone || 'Europe/Lisbon')}) · <code>${esc(r.content_id)}</code></div>`;
+    <div class="schedule-line">📅 ${esc(fmtDateTime(r.date, r.time))} (${esc(r.timezone || 'Europe/Lisbon')}) · <code>${esc(r.content_id)}</code></div>${linkedHtml}`;
 
   let body = '';
   const c = r.copy;
@@ -395,9 +395,13 @@ export function bindEditActions(scope, r, onSaved, onDuplicated) {
     });
   }
 
-  // Duplicate: creates a new, linked record on another channel (own text,
-  // own media, own status -- starts fresh at DRAFT). onDuplicated gets the
-  // new record back so the caller can add it to the store and open it.
+  // Duplicate: creates a new, linked record on another channel -- own
+  // media/status, starts fresh at DRAFT, but the text starts PRE-FILLED
+  // with this record's own text (real copy if it has any, else its own
+  // draft_text) as a starting point to adapt for the new channel, rather
+  // than a blank box that reads as "there's no text for Instagram".
+  // onDuplicated gets the new record back so the caller can add it to the
+  // store and open it.
   const dupBtn = scope.querySelector('#dupBtn');
   if (dupBtn) {
     dupBtn.addEventListener('click', async () => {
@@ -405,12 +409,13 @@ export function bindEditActions(scope, r, onSaved, onDuplicated) {
       const sel = scope.querySelector('#dupChannel');
       const targetChannel = sel.value;
       const format = (CHANNEL_FORMATS[targetChannel] || [])[0];
+      const seedText = fullTextFor(r);
       const unlock = lockSaveButtons(scope);
       msg.style.color = 'var(--muted)';
       msg.textContent = 'A duplicar no GitHub…';
       try {
         const token = getToken();
-        const clone = await duplicateRecord(token, r.content_id, { channel: targetChannel, format });
+        const clone = await duplicateRecord(token, r.content_id, { channel: targetChannel, format, draft_text: seedText });
         msg.style.color = 'var(--ok)';
         msg.textContent = `Criado ${clone.content_id} (${targetChannel}). A abrir…`;
         setTimeout(() => onDuplicated?.(clone), 900);

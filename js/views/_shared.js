@@ -1,5 +1,5 @@
 import { esc } from '../lib/util.js';
-import { openDrawer, drawerShell, formatIcon } from '../components.js';
+import { openDrawer, drawerShell, formatIcon, channelIcon } from '../components.js';
 import { renderRecordBody, bindRecordActions, bindEditActions } from '../record-detail.js';
 import { childrenOf } from '../data.js';
 
@@ -10,10 +10,25 @@ export function pageHead(eyebrow, title, sub, actionsHtml) {
   </div>`;
 }
 
+// Same idea, different channel: a record duplicated via "Duplicar para
+// outro canal" (or vice-versa, its original) is linked through
+// parent_content_id. Surfaced right under the title so both sides of the
+// pair are one click apart -- they stay two separate rows in the calendar
+// (each keeps its own channel color/icon), but no longer feel disconnected.
+function linkedRecordsHtml(store, r) {
+  const parent = r.parent_content_id ? store.records.find(x => x.content_id === r.parent_content_id) : null;
+  const related = [...(parent ? [parent] : []), ...childrenOf(store, r.content_id)];
+  if (!related.length) return '';
+  return `<div class="badge-row" style="margin-top:8px">
+    <span style="font-size:11px;color:var(--faint);align-self:center">Mesmo conteúdo, noutro canal:</span>
+    ${related.map(x => `<span class="badge" data-cascade-open="${esc(x.content_id)}" style="cursor:pointer">${channelIcon(x.channel)} ${esc(x.channel)} · ${formatIcon(x.channel, x.format)} ${esc(x.format)}</span>`).join('')}
+  </div>`;
+}
+
 export function openRecordDrawer(store, id) {
   const r = store.records.find(x => x.content_id === id);
   if (!r) return;
-  openDrawer(drawerShell(renderRecordBody(r)));
+  openDrawer(drawerShell(renderRecordBody(r, linkedRecordsHtml(store, r))));
   const scope = document.getElementById('drawer');
   bindRecordActions(scope, r);
   bindEditActions(scope, r, () => openRecordDrawer(store, id), (clone) => {
@@ -24,6 +39,7 @@ export function openRecordDrawer(store, id) {
     store.meta.row_count = store.records.length;
     openRecordDrawer(store, clone.content_id);
   });
+  bindCascadeOpens(scope, (otherId) => openRecordDrawer(store, otherId));
 }
 
 // A campaign/Live content cascade, rendered as CAMPAIGN -> POST -> STORY -> ... chips.

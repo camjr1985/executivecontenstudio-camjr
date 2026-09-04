@@ -172,6 +172,12 @@ export async function duplicateRecord(token, sourceContentId, overrides) {
   let n = 2;
   while (existingIds.has(newId)) { newId = `${sourceContentId}-${suffix}${n}`; n += 1; }
 
+  // A pre-filled seed text (the source's own real copy, or its own
+  // draft_text) saves the owner from starting on a blank page -- but it's
+  // the OLD channel's text verbatim, so it's marked IN_PROGRESS (needs
+  // adapting), never READY, until the owner actually reviews/edits it here.
+  const seedText = (overrides.draft_text || '').trim();
+
   const nowIso = new Date().toISOString();
   const clone = {
     ...source,
@@ -190,8 +196,8 @@ export async function duplicateRecord(token, sourceContentId, overrides) {
     publication_status: 'PENDING',
     publication_url: null,
     published_at: null,
-    copy_status: 'PENDING',
-    draft_text: '',
+    copy_status: seedText ? 'IN_PROGRESS' : 'PENDING',
+    draft_text: seedText,
     existing_or_new: 'NEW',
     decision: 'NEW',
     rationale: `Duplicado de ${sourceContentId} para ${overrides.channel} via Fonte & Governança`,
