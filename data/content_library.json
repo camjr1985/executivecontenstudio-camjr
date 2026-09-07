@@ -28,7 +28,7 @@
       "audience": "Product/Tech Lead",
       "hook": "Um backlog com 400 itens não é caótico por ter 400 itens.\nÉ caótico porque ninguém decidiu o que fica de fora.",
       "text": "No Azure Boards, é fácil confundir organização visual com clareza de prioridade. Colunas bem nomeadas e work items bem categorizados não substituem uma decisão real sobre o que a equipa vai — e não vai — entregar no próximo ciclo.\n\nBacklogs que crescem sem parar geralmente têm uma causa em comum: falta coragem de fechar itens que já não fazem sentido, e falta um critério explícito de priorização que todos aceitem, não só o dono do produto.\n\nA ferramenta ajuda a visualizar o trabalho. Não decide por ninguém o que é realmente importante agora.\n\nBacklog saudável não é o que está mais organizado. É o que reflete decisões que já foram tomadas.",
-      "cta": "Quantos itens no seu backlog têm mais de 6 meses sem movimento?",
+      "cta": "Quantos itens no seu backlog têm mais de 6 meses sem movimento?\n\nEsta reflexão também está no centro de “Superando Obstáculos”: liderança, decisões difíceis e a capacidade de transformar problemas reais em aprendizagem prática.\n\n🇵🇹 Portugal — conheça e apoie a campanha no PPL:\nhttps://ppl.pt/SuperandoObstaculos",
       "hashtags": "#AzureDevOps #ProductManagement #Agile #Backlog #PlatformEngineering",
       "image_prompt": "Product owner e tech lead a rever o Azure Boards numa reunião de priorização, sala de reuniões moderna.",
       "legacy_status": "Rascunho",
