@@ -1225,7 +1225,7 @@
       "market": "NOT_APPLICABLE",
       "language": "PT",
       "parent_content_id": null,
-      "status": "DRAFT",
+      "status": "CONFIRMED",
       "owner_approval_required": false,
       "buffer_eligible": "PENDING_OWNER",
       "automation_eligible": "PENDING_OWNER",
@@ -1239,8 +1239,8 @@
       "publication_url": null,
       "published_at": null,
       "created_at": "2026-09-02T00:00:00Z",
-      "updated_at": "2026-09-02T00:00:00Z",
-      "revision": 1,
+      "updated_at": "2026-09-18T16:49:49.673Z",
+      "revision": 2,
       "existing_or_new": "EXISTING",
       "decision": "KEEP",
       "rationale": "REVALIDATED: 09-17 and 09-19 both kept clear of LinkedIn content on either side, giving this article a full quiet distribution window",
@@ -1276,7 +1276,9 @@
         "PUBLICATION_URL": "NOT_APPLICABLE",
         "BUFFER_ID": "NOT_APPLICABLE",
         "PUBLISHED_AT": "NOT_APPLICABLE"
-      }
+      },
+      "copy_status": "PENDING",
+      "draft_text": ""
     },
     {
       "content_id": "POST-041",
