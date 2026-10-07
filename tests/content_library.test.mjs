@@ -14,7 +14,7 @@ const reviews = readJson('../data/monthly_reviews.json');
 test('calendar.json baseline is intact (content migration never wrote to it)', () => {
   assert.equal(calendar.row_count, calendar.records.length);
   assert.ok(calendar.records.length >= 79);
-  for (const r of calendar.records) assert.ok(['LinkedIn', 'Instagram', 'Live'].includes(r.channel), `unexpected channel on ${r.content_id}`);
+  for (const r of calendar.records) assert.ok(['LinkedIn', 'Instagram', 'Live', 'Project'].includes(r.channel), `unexpected channel on ${r.content_id}`);
 });
 
 test('content_library only covers EXISTING Post/Carousel/Article/News records, every one migrated', () => {

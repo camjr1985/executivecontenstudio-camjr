@@ -37,7 +37,8 @@ const CHANNEL_OPTIONS = ['LinkedIn', 'Instagram'];
 const CHANNEL_FORMATS = {
   LinkedIn: ['Post', 'Carousel', 'Article', 'News', 'Review'],
   Instagram: ['Feed', 'Reel', 'Story'],
-  Live: ['Live Event']
+  Live: ['Live Event'],
+  Project: ['Milestone', 'Review']
 };
 function channelOptionsFor(current) {
   return CHANNEL_OPTIONS.includes(current) ? CHANNEL_OPTIONS : [...CHANNEL_OPTIONS, current];

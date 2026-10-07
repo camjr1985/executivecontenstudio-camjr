@@ -76,7 +76,12 @@ export function operationalCounts(store) {
     ready: r.filter(x => x.status === 'READY' || x.status === 'SCHEDULED').length,
     noOwnerGate: r.filter(x => x.owner_approval_required === false).length,
     blocked: r.filter(x => x.owner_approval_required === true && (x.status === 'DRAFT' || x.status === 'PROPOSED')).length,
-    ownerGates: r.filter(x => x.owner_approval_required === true).length
+    ownerGates: r.filter(x => x.owner_approval_required === true).length,
+    // Project milestones (channel "Project") are roadmap markers, not editorial
+    // content: they are reported separately so editorial counts stay unchanged.
+    editorialTotal: r.filter(x => x.channel !== 'Project').length,
+    editorialNoGatePending: r.filter(x => x.channel !== 'Project' && x.owner_approval_required === false && (x.status === 'DRAFT' || x.status === 'PROPOSED')).length,
+    projectMilestones: r.filter(x => x.channel === 'Project').length
   };
 }
 

@@ -27,7 +27,7 @@ export function renderHome(root, store, navigate) {
       ${statCard(counts.ready, 'Pronto/Agendado', 'ready')}
       ${statCard(counts.blocked, 'Bloqueado (owner gate)', 'blocked', counts.blocked > 0)}
     </div>
-    <p style="font-size:12px;color:var(--faint);margin:-16px 0 20px">Nenhum registo tem hoje o estado <code>APPROVED</code> ou <code>READY</code> no calendário canónico — ${counts.total - counts.ownerGates} de ${counts.total} não requerem aprovação do owner, mas continuam em <code>DRAFT</code>/<code>PROPOSED</code>.</p>
+    <p style="font-size:12px;color:var(--faint);margin:-16px 0 20px">${counts.approved + counts.ready === 0 ? 'Nenhum registo tem hoje o estado <code>APPROVED</code> ou <code>READY</code> no calendário canónico — ' : ''}${counts.editorialNoGatePending} de ${counts.editorialTotal} registos editoriais não requerem aprovação do owner, mas continuam em <code>DRAFT</code>/<code>PROPOSED</code>.${counts.projectMilestones ? ` Inclui também ${counts.projectMilestones} marcos de projeto (canal <code>Project</code>), contados à parte.` : ''}</p>
     <div id="statFiltered"></div>
 
     <h4 style="font-family:var(--font-display);margin:26px 0 12px;color:var(--navy)">Hoje — ${esc(fmtDate(today))}</h4>

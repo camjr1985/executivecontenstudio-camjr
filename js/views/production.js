@@ -35,7 +35,9 @@ export function renderProduction(root, store, navigate) {
 
   function draw() {
     const f = filters.find(x => x.key === filterKey);
-    const rows = store.records.filter(f.test).sort((a, b) => a.date < b.date ? -1 : 1);
+    // Project milestones (channel "Project") are roadmap markers, not content to
+    // produce: they live in the Calendar and the Projetos page, not here.
+    const rows = store.records.filter(r => r.channel !== 'Project').filter(f.test).sort((a, b) => a.date < b.date ? -1 : 1);
     const body = document.getElementById('prodBody');
     body.innerHTML = rows.length ? `<div class="table-wrap"><table><thead><tr>
       <th>Content ID</th><th>Data</th><th>Formato</th><th>Título</th><th>Readiness</th><th>Texto</th><th>Media</th><th>QC</th><th>Aprovação</th><th>Publicação</th>

@@ -4,7 +4,7 @@ import { dataUri } from './lib/covers.js';
 // ---------- visual taxonomy ----------
 export const FORMAT_ICON = {
   Post: '🖼️', Carousel: '📚', Article: '📖', News: '📰', Review: '📊',
-  Feed: '📱', Reel: '🎬', Story: '⭕', 'Live Event': '🎙️'
+  Feed: '📱', Reel: '🎬', Story: '⭕', 'Live Event': '🎙️', Milestone: '🚩'
 };
 export function formatIcon(channel, format) {
   if (channel === 'Live') return '🎙️';
@@ -21,7 +21,7 @@ export function formatLabel(channel, format) {
 // Instagram vs Live -- before even reading the title. Live already has its
 // own unmistakable icon via formatIcon(), so it's left out here to avoid
 // showing the same glyph twice.
-const CHANNEL_GLYPH = { LinkedIn: '💼', Instagram: '📷' };
+const CHANNEL_GLYPH = { LinkedIn: '💼', Instagram: '📷', Project: '📁' };
 export function channelIcon(channel) { return CHANNEL_GLYPH[channel] || ''; }
 
 const STATUS_BADGE = {
