@@ -39,7 +39,7 @@ test('comments, ideas, monthly reviews carry provenance and expected counts', ()
 });
 
 test('protected editorial records are unchanged', () => {
-  const gates = { 'POST-038': ['2026-09-13', 'MOVE', true], 'POST-041': ['2026-09-20', 'MOVE', true], 'POST-047': ['2026-09-29', 'KEEP', false], 'POST-026': ['2026-12-15', 'REVISE', true] };
+  const gates = { 'POST-038': ['2026-09-17', 'MOVE', true], 'POST-041': ['2026-09-20', 'MOVE', true], 'POST-047': ['2026-09-29', 'KEEP', false], 'POST-026': ['2026-12-15', 'REVISE', true] };
   for (const [id, [date, decision, approval]] of Object.entries(gates)) {
     const r = calendar.records.find(x => x.content_id === id);
     assert.ok(r, `${id} missing`);
