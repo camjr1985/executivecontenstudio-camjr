@@ -84,7 +84,36 @@ function governancePanel(r) {
   </div>`;
 }
 
+// Project milestones (channel "Project") are roadmap markers, not content:
+// they get their own small form (date, time, milestone state, owner) and
+// never receive editorial fields like media or copy status.
+const PROJECT_STATES = [
+  ['planejado', 'PLANNED', 'Planejado'],
+  ['proximo', 'UPCOMING', 'Próximo'],
+  ['hoje', 'DUE_TODAY', 'Hoje'],
+  ['feito', 'COMPLETED', 'Feito']
+];
+function projectEditPanel(r) {
+  const timeVal = isPlaceholderValue(r.time) ? '' : (r.time || '');
+  const cur = r.project_status || 'planejado';
+  const box = 'padding:8px 10px;border-radius:8px;border:1px solid var(--line);font:inherit';
+  return `<div class="panel" style="margin-top:16px">
+    <h4>Editar marco do projeto (grava no GitHub)</h4>
+    <div class="field-block"><div class="fl-label">Data</div>
+      <input type="date" id="pjEditDate" value="${esc(r.date)}" style="${box}"></div>
+    <div class="field-block"><div class="fl-label">Hora (HH:MM — opcional)</div>
+      <input type="text" id="pjEditTime" value="${esc(timeVal)}" placeholder="ex: 18:00" style="${box};width:130px"></div>
+    <div class="field-block"><div class="fl-label">Estado do marco</div>
+      <select id="pjEditState" style="${box}">${PROJECT_STATES.map(([v, , l]) => `<option value="${v}"${cur === v ? ' selected' : ''}>${l}</option>`).join('')}</select></div>
+    <div class="field-block"><div class="fl-label">Responsável</div>
+      <input type="text" id="pjEditOwner" value="${esc(r.project_owner || '')}" placeholder="ex: Carlos" style="${box}"></div>
+    <div class="btn-row"><button class="btn primary" id="editSave">Guardar no GitHub</button></div>
+    <div id="editMsg" style="font-size:12.5px;margin-top:8px"></div>
+  </div>`;
+}
+
 function editPanel(r) {
+  if (isConnected() && r.channel === 'Project') return projectEditPanel(r);
   if (!isConnected()) {
     return `<div class="panel" style="margin-top:16px">
       <h4>Editar</h4>
@@ -364,6 +393,26 @@ function bindQuickPublish(scope, r, onSaved) {
 }
 
 export function bindEditActions(scope, r, onSaved, onDuplicated) {
+  if (r.channel === 'Project') {
+    const btn = scope.querySelector('#editSave');
+    if (!btn) return;
+    btn.addEventListener('click', () => {
+      const msg = scope.querySelector('#editMsg');
+      const date = scope.querySelector('#pjEditDate').value;
+      const time = scope.querySelector('#pjEditTime').value.trim();
+      const state = scope.querySelector('#pjEditState').value;
+      const owner = scope.querySelector('#pjEditOwner').value.trim();
+      if (!date) { msg.style.color = 'var(--danger)'; msg.textContent = 'Data é obrigatória.'; return; }
+      if (time && !/^\d{2}:\d{2}$/.test(time)) { msg.style.color = 'var(--danger)'; msg.textContent = 'Hora no formato HH:MM (ex: 18:00), ou deixe em branco.'; return; }
+      const status = PROJECT_STATES.find(([v]) => v === state)[1];
+      // undefined keys are dropped when the file is written, which also
+      // cleans editorial fields a milestone should never carry.
+      const patch = { date, time, status, project_status: state, project_owner: owner || '—',
+        media_status: undefined, media_asset: undefined, copy_status: undefined, draft_text: undefined };
+      savePatch(scope, r, onSaved, patch, msg, 'marco de projeto: data/hora/estado/responsável');
+    });
+    return;
+  }
   bindQuickPublish(scope, r, onSaved);
 
   // Format options depend on the chosen channel (Instagram can't be

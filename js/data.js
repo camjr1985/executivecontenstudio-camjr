@@ -67,9 +67,11 @@ export function recordsForDate(store, iso) { return store.records.filter(r => r.
 // NOT_APPLICABLE today) simply has no APPROVED/READY records yet, the count is
 // honestly 0 rather than repurposing an unrelated status to fill the card.
 export function operationalCounts(store) {
-  const r = store.records;
+  const all = store.records;
+  // Editorial cards ignore project milestones (channel "Project"); the total keeps everything.
+  const r = all.filter(x => x.channel !== 'Project');
   return {
-    total: r.length,
+    total: all.length,
     needsReview: r.filter(x => x.status === 'DRAFT' || x.status === 'PROPOSED').length,
     mediaPending: r.filter(x => x.media_status === 'PENDING_MEDIA').length,
     approved: r.filter(x => x.status === 'APPROVED').length,
@@ -79,9 +81,9 @@ export function operationalCounts(store) {
     ownerGates: r.filter(x => x.owner_approval_required === true).length,
     // Project milestones (channel "Project") are roadmap markers, not editorial
     // content: they are reported separately so editorial counts stay unchanged.
-    editorialTotal: r.filter(x => x.channel !== 'Project').length,
-    editorialNoGatePending: r.filter(x => x.channel !== 'Project' && x.owner_approval_required === false && (x.status === 'DRAFT' || x.status === 'PROPOSED')).length,
-    projectMilestones: r.filter(x => x.channel === 'Project').length
+    editorialTotal: r.length,
+    editorialNoGatePending: r.filter(x => x.owner_approval_required === false && (x.status === 'DRAFT' || x.status === 'PROPOSED')).length,
+    projectMilestones: all.length - r.length
   };
 }
 

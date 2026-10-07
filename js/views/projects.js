@@ -1,4 +1,4 @@
-import { esc } from '../lib/util.js';
+import { esc, isPlaceholderValue } from '../lib/util.js';
 import { emptyState } from '../components.js';
 import { todayISO } from '../data.js';
 import { pageHead, openRecordDrawer } from './_shared.js';
@@ -31,7 +31,7 @@ function milestonesOf(store, p, roadmap) {
       const fromRoadmap = (roadmap.marcos || []).find(m => m.data === r.date && !!m.portao === !!r.is_gate && (r.title || '').includes(m.titulo));
       const gateTitle = r.is_gate ? (roadmap.marcos || []).find(m => m.portao && m.data === r.date)?.titulo : null;
       const title = (r.title || '').startsWith('SO · ') ? r.title.slice(5) : (gateTitle || fromRoadmap?.titulo || r.title);
-      return { id: r.content_id, date: r.date, time: r.time && r.time !== 'TBD' ? r.time : '', front: r.project_front, owner: r.project_owner || '—', gate: !!r.is_gate, status: r.project_status, title };
+      return { id: r.content_id, date: r.date, time: isPlaceholderValue(r.time) || !r.time ? '' : r.time, front: r.project_front, owner: r.project_owner || '—', gate: !!r.is_gate, status: r.project_status, title };
     })
     .sort((a, b) => (a.date + a.time < b.date + b.time ? -1 : 1));
 }
