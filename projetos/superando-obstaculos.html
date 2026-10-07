@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="pt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Roadmap Superando Obstáculos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: control-room board — today's focus up top, phase strip with gates, then a lanes × months grid */
+:root{
+  --bg:#f3f5f9; --surface:#ffffff; --ink:#13273f; --muted:#5d6b7c; --line:#d8dfe8;
+  --accent:#2f6fed; --accent-soft:#e7eefc;
+  --done:#2e8b57; --done-soft:#e5f3eb; --today:#c77a12; --today-soft:#fbf0de; --next:#2f6fed; --gate:#13273f;
+  --display:'Sora',system-ui,sans-serif; --body:'IBM Plex Sans',system-ui,sans-serif; --mono:'IBM Plex Mono',ui-monospace,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0e1622; --surface:#152132; --ink:#e6edf6; --muted:#9aa8ba; --line:#26364b;
+  --accent:#6f9bff; --accent-soft:#1c2c48; --done:#5cc48a; --done-soft:#17322a; --today:#f0a843; --today-soft:#3a2c14; --next:#6f9bff; --gate:#e6edf6; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0e1622; --surface:#152132; --ink:#e6edf6; --muted:#9aa8ba; --line:#26364b;
+  --accent:#6f9bff; --accent-soft:#1c2c48; --done:#5cc48a; --done-soft:#17322a; --today:#f0a843; --today-soft:#3a2c14; --next:#6f9bff; --gate:#e6edf6; color-scheme:dark}
+body{background:var(--bg);color:var(--ink);font:15px/1.5 var(--body)}
+.wrap{max-width:1180px;margin:0 auto;padding-inline:20px;padding-block:28px 56px;display:grid;gap:28px}
+header{display:grid;gap:8px}
+.eyebrow{font:600 12px var(--body);letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+h1{font:700 clamp(28px,4vw,40px)/1.1 var(--display);margin:0;text-wrap:balance}
+.lead{color:var(--muted);max-width:68ch;margin:0}
+.meta{font:500 12px var(--mono);color:var(--muted)}
+h2{font:600 18px var(--display);margin:0 0 12px}
+.focus{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.col{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px;min-width:0}
+.col h3{font:600 13px var(--body);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 10px}
+.item{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;padding:9px 0;border-top:1px solid var(--line)}
+.item:first-of-type{border-top:0}
+.d{font:500 12px var(--mono);color:var(--muted);padding-top:2px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.t{min-width:0}
+.who{font-size:12px;color:var(--muted)}
+.pill{display:inline-block;font:600 11px var(--body);letter-spacing:.04em;padding:1px 8px;border-radius:20px;margin-left:6px;vertical-align:1px}
+.s-feito{background:var(--done-soft);color:var(--done)}
+.s-hoje{background:var(--today-soft);color:var(--today)}
+.s-proximo{background:var(--accent-soft);color:var(--next)}
+.s-planejado{background:transparent;color:var(--muted);border:1px solid var(--line)}
+.phases{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:0;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--surface)}
+.phase{padding:16px;border-left:1px solid var(--line);display:grid;gap:6px;align-content:start;position:relative}
+.phase:first-child{border-left:0}
+.phase.now{background:var(--accent-soft)}
+.phase b{font:600 15px var(--display)}
+.phase .dates{font:500 12px var(--mono);color:var(--muted)}
+.phase .gate{font-size:13px;color:var(--ink);border-top:1px dashed var(--line);padding-top:8px;margin-top:4px}
+.phase .gate::before{content:"◆ ";color:var(--gate)}
+.boardwrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:980px}
+th,td{border-top:1px solid var(--line);border-left:1px solid var(--line);vertical-align:top;padding:10px;text-align:left}
+th{font:600 12px var(--body);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);background:var(--bg)}
+th.cur{color:var(--accent)}
+tr:first-child th{border-top:0}
+th:first-child,td:first-child{border-left:0}
+td.lane{font:600 14px var(--display);width:150px;white-space:nowrap}
+.chip{display:block;font-size:13px;line-height:1.35;padding:6px 8px;border-radius:8px;margin-bottom:6px;border:1px solid var(--line);background:var(--surface)}
+.chip .dd{font:500 11px var(--mono);color:var(--muted);margin-right:4px}
+.chip.feito{background:var(--done-soft);border-color:transparent}
+.chip.hoje{background:var(--today-soft);border-color:var(--today)}
+.chip.proximo{border-color:var(--accent)}
+.chip.gate{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+.chip.gate .dd{color:var(--surface);opacity:.75}
+.legend{display:flex;flex-wrap:wrap;gap:8px 16px;font-size:13px;color:var(--muted);margin-top:10px}
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.filters button{font:500 13px var(--body);padding:5px 12px;border-radius:20px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.filters button[aria-pressed="true"]{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+.filters button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+footer{font-size:13px;color:var(--muted)}
+</style>
+<style>body{margin:0}</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Executive Content Studio · Projetos</div>
+    <h1>Superando Obstáculos</h1>
+    <p class="lead" id="obj"></p>
+    <div class="meta" id="meta"></div>
+  </header>
+
+  <section>
+    <h2>Foco desta semana</h2>
+    <div class="focus" id="focus"></div>
+  </section>
+
+  <section>
+    <h2>Fases e portões</h2>
+    <div class="phases" id="phases"></div>
+  </section>
+
+  <section>
+    <h2>Roadmap por frente</h2>
+    <div class="filters" id="filters" role="group" aria-label="Filtrar por responsável"></div>
+    <div class="boardwrap"><table id="board"></table></div>
+    <div class="legend">
+      <span><span class="pill s-feito">Feito</span></span>
+      <span><span class="pill s-hoje">Hoje</span></span>
+      <span><span class="pill s-proximo">Próximo</span></span>
+      <span><span class="pill s-planejado">Planejado</span></span>
+      <span>◆ Portão de revisão</span>
+    </div>
+  </section>
+
+  <footer>Metas de portão são de planejamento. Datas marcadas como previstas dependem de terceiros (Amazon, IPAM, campanhas).</footer>
+</div>
+
+<script>
+const D = {"projeto": "Superando Obstáculos", "atualizado": "2026-10-07", "objetivo": "Transformar o livro em fonte de receita: ebook no Kindle, 1ª edição impressa e serviços (palestras, workshops, mentoria, consultoria).", "frentes": [{"id": "campanhas", "nome": "Campanhas"}, {"id": "livro", "nome": "Livro e Kindle"}, {"id": "conteudo", "nome": "Conteúdo"}, {"id": "servicos", "nome": "Parcerias e serviços"}, {"id": "sites", "nome": "Sites"}], "fases": [{"nome": "Fase 1 · Lançar", "inicio": "2026-10-06", "fim": "2026-10-31", "portao": "Portão 1 (31/out): ebook publicado com 5+ avaliações, PPL encerrada, 2 propostas B2B enviadas"}, {"nome": "Fase 2 · Converter", "inicio": "2026-11-01", "fim": "2026-11-30", "portao": "Portão 2 (30/nov): 1 palestra ou workshop pago fechado, resultado do Catarse, 3 mentorias vendidas"}, {"nome": "Fase 3 · Imprimir", "inicio": "2026-12-01", "fim": "2026-12-31", "portao": "Portão 3 (31/dez): 1ª edição impressa à venda, 1 contrato de consultoria em negociação"}, {"nome": "Fase 4 · Escalar", "inicio": "2027-01-01", "fim": "2027-03-31", "portao": "Portão 4 (31/mar): 1 workshop por mês e agenda de mentoria recorrente"}], "marcos": [{"data": "2026-10-06", "frente": "servicos", "titulo": "E-mails enviados: IPAM, PMI Portugal, Câmara de Guimarães", "dono": "Claude", "status": "feito"}, {"data": "2026-10-06", "frente": "servicos", "titulo": "Monitor diário das campanhas ativado (seg–sex 8:52)", "dono": "Claude", "status": "feito"}, {"data": "2026-10-07", "hora": "11:30", "frente": "servicos", "titulo": "Reunião IPAM com Wellington Furtado", "dono": "Carlos", "status": "feito"}, {"data": "2026-10-07", "frente": "campanhas", "titulo": "WhatsApp pessoal para 50 contatos (PPL)", "dono": "Carlos", "status": "hoje"}, {"data": "2026-10-07", "frente": "conteudo", "titulo": "Post C1 · 5 sinais de crise (Instagram + LinkedIn)", "dono": "Carlos", "status": "hoje"}, {"data": "2026-10-08", "frente": "conteudo", "titulo": "Reels R1 · O projeto saiu do plano", "dono": "Carlos", "status": "proximo"}, {"data": "2026-10-09", "frente": "livro", "titulo": "Submeter ebook no KDP (passo a passo pronto)", "dono": "Carlos", "status": "proximo"}, {"data": "2026-10-10", "frente": "servicos", "titulo": "Proposta de 1 página para Câmara de Guimarães", "dono": "Claude + Carlos", "status": "proximo"}, {"data": "2026-10-10", "frente": "servicos", "titulo": "Chamada com PMI Portugal (VP José Angelo Pinto)", "dono": "Carlos", "status": "proximo"}, {"data": "2026-10-10", "frente": "conteudo", "titulo": "Carrossel C2 · 5 decisões para recuperar", "dono": "Carlos", "status": "proximo"}, {"data": "2026-10-12", "frente": "conteudo", "titulo": "Reels R2 · Faltam 2 dias para a PPL", "dono": "Carlos", "status": "proximo"}, {"data": "2026-10-13", "frente": "livro", "titulo": "Ebook no ar (previsto) + carrossel C3 de lançamento", "dono": "Carlos", "status": "planejado"}, {"data": "2026-10-14", "hora": "18:00", "frente": "campanhas", "titulo": "Fecho da campanha PPL", "dono": "—", "status": "planejado"}, {"data": "2026-10-15", "frente": "sites", "titulo": "Links da Amazon no site do livro, portfólio e bio", "dono": "Claude", "status": "planejado"}, {"data": "2026-10-17", "frente": "servicos", "titulo": "Conferência anual PMI Portugal (Porto, 17–18/out)", "dono": "Carlos", "status": "planejado"}, {"data": "2026-10-20", "frente": "servicos", "titulo": "Perfil no Malt + oferta de recuperação de projetos no LinkedIn", "dono": "Carlos", "status": "planejado"}, {"data": "2026-10-21", "frente": "conteudo", "titulo": "Post de oferta: mentoria (R$790 / €350)", "dono": "Carlos", "status": "planejado"}, {"data": "2026-10-24", "frente": "sites", "titulo": "Seção Serviços e Livro no portfólio", "dono": "Claude", "status": "planejado"}, {"data": "2026-10-28", "frente": "conteudo", "titulo": "Post de oferta: palestra para empresas (1 PDU)", "dono": "Carlos", "status": "planejado"}, {"data": "2026-10-31", "frente": "servicos", "titulo": "Revisão mensal · Portão 1", "dono": "Carlos + Claude", "status": "planejado", "portao": true}, {"data": "2026-11-02", "frente": "servicos", "titulo": "Início previsto do curso no IPAM", "dono": "IPAM", "status": "planejado"}, {"data": "2026-11-04", "frente": "campanhas", "titulo": "Catarse: faltam 10 dias (post + WhatsApp)", "dono": "Carlos", "status": "planejado"}, {"data": "2026-11-14", "frente": "campanhas", "titulo": "Fecho da campanha Catarse", "dono": "—", "status": "planejado"}, {"data": "2026-11-15", "frente": "livro", "titulo": "Entregar ebooks dos apoiadores e ativar KDP Select", "dono": "Carlos", "status": "planejado"}, {"data": "2026-11-18", "frente": "conteudo", "titulo": "Live mensal com certificado PDU", "dono": "Carlos", "status": "planejado"}, {"data": "2026-11-30", "frente": "servicos", "titulo": "Revisão mensal · Portão 2", "dono": "Carlos + Claude", "status": "planejado", "portao": true}, {"data": "2026-12-07", "frente": "livro", "titulo": "ISBN, capa completa e PDF final para impresso", "dono": "Carlos + Claude", "status": "planejado"}, {"data": "2026-12-15", "frente": "livro", "titulo": "Impresso no KDP Paperback e Clube de Autores", "dono": "Carlos", "status": "planejado"}, {"data": "2026-12-16", "frente": "conteudo", "titulo": "Live mensal com certificado PDU", "dono": "Carlos", "status": "planejado"}, {"data": "2026-12-31", "frente": "servicos", "titulo": "Revisão mensal · Portão 3", "dono": "Carlos + Claude", "status": "planejado", "portao": true}, {"data": "2027-01-15", "frente": "servicos", "titulo": "Workshop pago de janeiro", "dono": "Carlos", "status": "planejado"}, {"data": "2027-02-13", "frente": "livro", "titulo": "Fim do 1º ciclo KDP Select: renovar ou abrir outras lojas", "dono": "Carlos", "status": "planejado"}, {"data": "2027-02-15", "frente": "servicos", "titulo": "Workshop pago de fevereiro", "dono": "Carlos", "status": "planejado"}, {"data": "2027-03-15", "frente": "servicos", "titulo": "Workshop pago de março", "dono": "Carlos", "status": "planejado"}, {"data": "2027-03-31", "frente": "servicos", "titulo": "Revisão trimestral · Portão 4", "dono": "Carlos + Claude", "status": "planejado", "portao": true}]};
+const TODAY = D.atualizado;
+const MES = ["jan","fev","mar","abr","mai","jun","jul","ago","set","out","nov","dez"];
+const fmt = s => { const [y,m,d]=s.split("-"); return `${d}/${MES[+m-1]}`; };
+const lab = {feito:"Feito",hoje:"Hoje",proximo:"Próximo",planejado:"Planejado"};
+const esc = s => s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+document.getElementById("obj").textContent = D.objetivo;
+document.getElementById("meta").textContent = `Atualizado em ${fmt(D.atualizado)}/2026 · ${D.marcos.length} marcos · out/2026 a mar/2027`;
+
+// Foco: feito recente, hoje, próximos 7 dias
+const addDays=(s,n)=>{const t=new Date(s+"T12:00:00");t.setDate(t.getDate()+n);return t.toISOString().slice(0,10)};
+const in7 = addDays(TODAY,7);
+const groups = [
+  ["Concluído", D.marcos.filter(m=>m.status==="feito")],
+  ["Hoje", D.marcos.filter(m=>m.status==="hoje")],
+  ["Próximos 7 dias", D.marcos.filter(m=>m.data>TODAY && m.data<=in7)]
+];
+document.getElementById("focus").innerHTML = groups.map(([h,list])=>`<div class="col"><h3>${h}</h3>${list.map(m=>`
+  <div class="item"><span class="d">${fmt(m.data)}${m.hora?" "+m.hora:""}</span><div class="t">${esc(m.titulo)}<div class="who">${esc(m.dono)}</div></div></div>`).join("")}</div>`).join("");
+
+document.getElementById("phases").innerHTML = D.fases.map(f=>{
+  const now = TODAY>=f.inicio && TODAY<=f.fim;
+  return `<div class="phase${now?" now":""}"><b>${esc(f.nome)}</b><span class="dates">${fmt(f.inicio)} – ${fmt(f.fim)}${now?" · em curso":""}</span><span class="gate">${esc(f.portao)}</span></div>`;
+}).join("");
+
+const months = ["2026-10","2026-11","2026-12","2027-01","2027-02","2027-03"];
+let who = "todos";
+function board(){
+  const ms = D.marcos.filter(m=> who==="todos" || m.dono.includes(who));
+  let h = `<tr><th>Frente</th>${months.map(k=>{const [y,m]=k.split("-");return `<th class="${TODAY.startsWith(k)?"cur":""}">${MES[+m-1]} ${y.slice(2)}</th>`}).join("")}</tr>`;
+  for(const f of D.frentes){
+    h += `<tr><td class="lane">${esc(f.nome)}</td>`;
+    for(const k of months){
+      const cell = ms.filter(m=>m.frente===f.id && m.data.startsWith(k));
+      h += `<td>${cell.map(m=>`<span class="chip ${m.portao?"gate":m.status}" title="${esc(m.dono)}"><span class="dd">${m.data.slice(8)}</span>${m.portao?"◆ ":""}${esc(m.titulo)}</span>`).join("")}</td>`;
+    }
+    h += `</tr>`;
+  }
+  document.getElementById("board").innerHTML = h;
+}
+const opts = [["todos","Todos"],["Carlos","Carlos"],["Claude","Claude"]];
+const fb = document.getElementById("filters");
+fb.innerHTML = opts.map(([v,t])=>`<button type="button" data-v="${v}" aria-pressed="${v==="todos"}">${t}</button>`).join("");
+fb.addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;who=b.dataset.v;
+  fb.querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed",x===b));board();});
+board();
+</script>
+
+</body>
+</html>
