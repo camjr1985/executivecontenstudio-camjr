@@ -15,6 +15,7 @@ import { renderReviews, renderReviewDetail } from './views/reviews.js';
 import { renderSearch } from './views/search.js';
 import { renderGuide } from './views/guide.js';
 import { renderGovernance } from './views/governance.js';
+import { renderProjects, renderProjectDetail } from './views/projects.js';
 
 const root = qs('#view-root');
 let STORE = null;
@@ -57,7 +58,8 @@ function router() {
     reviews: () => param ? renderReviewDetail(root, STORE, navigate, param) : renderReviews(root, STORE, navigate),
     search: () => renderSearch(root, STORE, navigate, param ? decodeURIComponent(param) : ''),
     guide: () => renderGuide(root, STORE, navigate),
-    governance: () => renderGovernance(root, STORE, navigate)
+    governance: () => renderGovernance(root, STORE, navigate),
+    projects: () => param ? renderProjectDetail(root, STORE, navigate, param) : renderProjects(root, STORE, navigate)
   };
   (routes[view] || routes.home)();
 }
