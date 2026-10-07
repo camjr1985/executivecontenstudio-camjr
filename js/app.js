@@ -16,6 +16,7 @@ import { renderSearch } from './views/search.js';
 import { renderGuide } from './views/guide.js';
 import { renderGovernance } from './views/governance.js';
 import { renderProjects, renderProjectDetail } from './views/projects.js';
+import { renderDigitalProjects } from './views/digital-projects.js';
 
 const root = qs('#view-root');
 let STORE = null;
@@ -59,7 +60,8 @@ function router() {
     search: () => renderSearch(root, STORE, navigate, param ? decodeURIComponent(param) : ''),
     guide: () => renderGuide(root, STORE, navigate),
     governance: () => renderGovernance(root, STORE, navigate),
-    projects: () => param ? renderProjectDetail(root, STORE, navigate, param) : renderProjects(root, STORE, navigate)
+    projects: () => param ? renderProjectDetail(root, STORE, navigate, param) : renderProjects(root, STORE, navigate),
+    'digital-projects': () => renderDigitalProjects(root, STORE, navigate)
   };
   (routes[view] || routes.home)();
 }

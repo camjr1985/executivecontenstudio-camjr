@@ -294,3 +294,10 @@ tr.row-ignored{opacity:.6}
 .pj-chip.gate{background:var(--navy);color:#fff;border-color:var(--navy)}
 .pj-dd{font-family:var(--font-mono);font-size:11px;color:var(--muted);margin-right:4px}
 .pj-chip.gate .pj-dd{color:#fff;opacity:.75}
+
+/* ---------- Projetos Digitais (#/digital-projects) — reuses the .pj-* styles above ---------- */
+.dp-card{cursor:default}
+.dp-row{display:flex;justify-content:space-between;gap:12px;font-size:12.5px;color:var(--muted);border-top:1px solid var(--line-soft);padding-top:6px}
+.dp-row b{color:var(--ink);font-weight:600;text-align:right}
+.dp-board{min-width:1900px}
+.dp-board td{min-width:140px}

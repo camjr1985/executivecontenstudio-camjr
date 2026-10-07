@@ -1,0 +1,65 @@
+{
+  "projeto": "Projetos Digitais",
+  "atualizado": "2026-10-07",
+  "objetivo": "Cinco projetos de receita recorrente e automatizada com IA, lançados um de cada vez. Cada projeto só avança quando o portão é atingido. Meta de planeamento: cerca de R$44 mil/mês somados em set/2027.",
+  "plano": "https://claude.ai/code/artifact/90fd907d-937e-4815-979d-91e6e74078a0",
+  "projetos": [
+    {"frente": "clube", "icone": "🎓", "nome": "Clube de PDUs", "estado": "Em validação", "oferta": "Assinatura: 1 live/mês + biblioteca gravada + certificado", "preco": "R$57/mês ou R$397/ano · €12/mês", "portao": "50 membros fundadores", "meta": "300 membros · R$17.100/mês"},
+    {"frente": "portugal", "icone": "🇵🇹", "nome": "Vida e Carreira em Portugal", "estado": "Em validação", "oferta": "Kit 90 dias + CV/LinkedIn padrão europeu + assistente IA", "preco": "€19–49", "portao": "30 kits vendidos", "meta": "60 vendas + comissões · R$9.800/mês"},
+    {"frente": "templates", "icone": "🧩", "nome": "Fábrica de Templates GP", "estado": "Planeado", "oferta": "Planilhas e templates de gestão para nichos", "preco": "R$27–67 · US$9–19", "portao": "3 templates com venda orgânica", "meta": "150 vendas · R$6.000/mês"},
+    {"frente": "concursos", "icone": "📝", "nome": "Simulados GP para Concursos", "estado": "Planeado", "oferta": "Banco de questões autorais + tutor IA", "preco": "R$97–197 por 6 meses", "portao": "100 alunos na pré-venda", "meta": "40 acessos · R$5.900/mês"},
+    {"frente": "ia", "icone": "🤖", "nome": "IA Implantada por Setor", "estado": "Planeado", "oferta": "Serviço mensal: atendimento, agenda, conteúdo, relatório", "preco": "R$500–1.500/mês", "portao": "3 clientes piloto renovam", "meta": "5 clientes · R$5.000/mês"}
+  ],
+  "frentes": [
+    {"id": "clube", "nome": "Clube de PDUs"},
+    {"id": "portugal", "nome": "Vida em Portugal"},
+    {"id": "templates", "nome": "Templates GP"},
+    {"id": "concursos", "nome": "Simulados concursos"},
+    {"id": "ia", "nome": "IA por setor"},
+    {"id": "portoes", "nome": "Portões"}
+  ],
+  "fases": [
+    {"nome": "Fase 1 · Fundação", "inicio": "2026-10-07", "fim": "2026-12-31", "portao": "Portão 1 (31/dez): 50 membros fundadores no Clube e 30 kits Portugal vendidos"},
+    {"nome": "Fase 2 · Lançamento", "inicio": "2027-01-01", "fim": "2027-03-31", "portao": "Portão 2 (31/mar): Clube lançado e 3 templates com venda orgânica"},
+    {"nome": "Fase 3 · Construção", "inicio": "2027-04-01", "fim": "2027-06-30", "portao": "Portão 3 (30/jun): 100 alunos na pré-venda dos simulados e 3 pilotos de IA que renovam"},
+    {"nome": "Fase 4 · Escala", "inicio": "2027-07-01", "fim": "2027-09-30", "portao": "Portão 4 (30/set): cerca de R$44 mil/mês somados nos cinco projetos"}
+  ],
+  "marcos": [
+    {"data": "2026-10-11", "frente": "clube", "titulo": "Definir as 12 aulas (1 PDU cada) e o preço fundador", "dono": "Carlos", "status": "planejado"},
+    {"data": "2026-10-14", "frente": "clube", "titulo": "Página de pré-venda na Kiwify", "dono": "Claude + Carlos", "status": "planejado"},
+    {"data": "2026-10-18", "frente": "clube", "titulo": "Abrir pré-venda fundador (Sympla + Instagram)", "dono": "Carlos", "status": "planejado"},
+    {"data": "2026-11-30", "frente": "clube", "titulo": "Meta: 50 membros fundadores", "dono": "Carlos", "status": "planejado"},
+    {"data": "2027-01-15", "frente": "clube", "titulo": "Lançamento oficial do Clube", "dono": "Carlos", "status": "planejado"},
+    {"data": "2027-04-15", "frente": "clube", "titulo": "Biblioteca gravada + anúncios", "dono": "Claude + Carlos", "status": "planejado"},
+    {"data": "2027-09-30", "frente": "clube", "titulo": "Meta: 300 membros ativos", "dono": "Carlos", "status": "planejado"},
+
+    {"data": "2026-10-11", "frente": "portugal", "titulo": "Índice do kit 90 dias (NIF, NISS, SNS, carta, IRS)", "dono": "Carlos", "status": "planejado"},
+    {"data": "2026-10-21", "frente": "portugal", "titulo": "Página de pré-venda do kit", "dono": "Claude", "status": "planejado"},
+    {"data": "2026-11-10", "frente": "portugal", "titulo": "Fluxo de CV europeu com IA (formulário → rascunho → revisão)", "dono": "Claude", "status": "planejado"},
+    {"data": "2026-12-15", "frente": "portugal", "titulo": "Meta: 30 kits vendidos", "dono": "Carlos", "status": "planejado"},
+    {"data": "2027-02-01", "frente": "portugal", "titulo": "3 parcerias com comissão (advogado, seguro, câmbio)", "dono": "Carlos", "status": "planejado"},
+    {"data": "2027-05-01", "frente": "portugal", "titulo": "Assistente IA no ar", "dono": "Claude", "status": "planejado"},
+
+    {"data": "2026-11-02", "frente": "templates", "titulo": "Escolher 5 nichos e um problema de cada", "dono": "Carlos", "status": "planejado"},
+    {"data": "2026-11-30", "frente": "templates", "titulo": "5 primeiros templates na Kiwify", "dono": "Claude + Carlos", "status": "planejado"},
+    {"data": "2027-02-15", "frente": "templates", "titulo": "Loja Etsy + 15 modelos", "dono": "Claude", "status": "planejado"},
+    {"data": "2027-03-31", "frente": "templates", "titulo": "Meta: 3 templates com venda orgânica", "dono": "Carlos", "status": "planejado"},
+    {"data": "2027-06-30", "frente": "templates", "titulo": "20 a 30 produtos publicados", "dono": "Claude", "status": "planejado"},
+
+    {"data": "2027-01-20", "frente": "concursos", "titulo": "Mapear editais com gestão de projetos e ágil", "dono": "Claude", "status": "planejado"},
+    {"data": "2027-03-31", "frente": "concursos", "titulo": "300 questões autorais revistas", "dono": "Claude + Carlos", "status": "planejado"},
+    {"data": "2027-05-15", "frente": "concursos", "titulo": "Pré-venda + tutor IA", "dono": "Claude + Carlos", "status": "planejado"},
+    {"data": "2027-06-30", "frente": "concursos", "titulo": "Meta: 100 alunos na pré-venda", "dono": "Carlos", "status": "planejado"},
+    {"data": "2027-08-01", "frente": "concursos", "titulo": "Lançar com a abertura de um edital grande", "dono": "Carlos", "status": "planejado"},
+
+    {"data": "2027-02-15", "frente": "ia", "titulo": "Escolher o setor e fazer 10 conversas", "dono": "Carlos", "status": "planejado"},
+    {"data": "2027-04-15", "frente": "ia", "titulo": "Piloto com 3 clientes", "dono": "Claude + Carlos", "status": "planejado"},
+    {"data": "2027-06-30", "frente": "ia", "titulo": "Meta: 3 pilotos renovam", "dono": "Carlos", "status": "planejado"},
+    {"data": "2027-09-01", "frente": "ia", "titulo": "Pacote padrão: 5 clientes", "dono": "Carlos", "status": "planejado"},
+
+    {"data": "2026-12-31", "frente": "portoes", "titulo": "Portão 1 · Fundação", "dono": "Carlos + Claude", "status": "planejado", "portao": true},
+    {"data": "2027-03-31", "frente": "portoes", "titulo": "Portão 2 · Lançamento", "dono": "Carlos + Claude", "status": "planejado", "portao": true},
+    {"data": "2027-06-30", "frente": "portoes", "titulo": "Portão 3 · Construção", "dono": "Carlos + Claude", "status": "planejado", "portao": true},
+    {"data": "2027-09-30", "frente": "portoes", "titulo": "Portão 4 · Escala", "dono": "Carlos + Claude", "status": "planejado", "portao": true}
+  ]
+}
