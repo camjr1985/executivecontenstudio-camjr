@@ -14,7 +14,7 @@ const CAMPAIGN = 'SUPERANDO_OBSTACULOS_LANCAMENTO';
 
 const calendar = JSON.parse(fs.readFileSync(calendarUrl, 'utf8'));
 const roadmap = JSON.parse(fs.readFileSync(roadmapUrl, 'utf8'));
-const statusMap = { feito: 'COMPLETED', hoje: 'DUE_TODAY', proximo: 'UPCOMING', planejado: 'PLANNED' };
+const statusMap = { feito: 'COMPLETED', hoje: 'DUE_TODAY', proximo: 'UPCOMING', planejado: 'PLANNED', adiado: 'POSTPONED', cancelado: 'CANCELLED' };
 const reuse = new Map([
   ['2026-11-30|Revisão mensal · Portão 2', 'REV-004'],
   ['2026-12-31|Revisão mensal · Portão 3', 'REV-005']

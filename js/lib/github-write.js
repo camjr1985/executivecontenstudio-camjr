@@ -184,7 +184,7 @@ export async function duplicateRecord(token, sourceContentId, overrides, _attemp
   if (!source) throw new Error(`${sourceContentId} nao foi encontrado no calendar.json atual.`);
 
   const existingIds = new Set(data.records.map(r => r.content_id));
-  const suffix = { LinkedIn: 'LI', Instagram: 'IG', Live: 'LV' }[overrides.channel] || 'DUP';
+  const suffix = { LinkedIn: 'LI', Instagram: 'IG', YouTube: 'YT', Live: 'LV' }[overrides.channel] || 'DUP';
   let newId = `${sourceContentId}-${suffix}`;
   let n = 2;
   while (existingIds.has(newId)) { newId = `${sourceContentId}-${suffix}${n}`; n += 1; }

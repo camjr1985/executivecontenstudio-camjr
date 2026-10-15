@@ -4,7 +4,8 @@ import { dataUri } from './lib/covers.js';
 // ---------- visual taxonomy ----------
 export const FORMAT_ICON = {
   Post: '🖼️', Carousel: '📚', Article: '📖', News: '📰', Review: '📊',
-  Feed: '📱', Reel: '🎬', Story: '⭕', 'Live Event': '🎙️', Milestone: '🚩'
+  Feed: '📱', Reel: '🎬', Story: '⭕', 'Live Event': '🎙️', Milestone: '🚩',
+  Short: '🎬', Poll: '🗳️'
 };
 export function formatIcon(channel, format) {
   if (channel === 'Live') return '🎙️';
@@ -21,19 +22,20 @@ export function formatLabel(channel, format) {
 // Instagram vs Live -- before even reading the title. Live already has its
 // own unmistakable icon via formatIcon(), so it's left out here to avoid
 // showing the same glyph twice.
-const CHANNEL_GLYPH = { LinkedIn: '💼', Instagram: '📷', Project: '📁' };
+const CHANNEL_GLYPH = { LinkedIn: '💼', Instagram: '📷', YouTube: '▶️', Project: '📁' };
 export function channelIcon(channel) { return CHANNEL_GLYPH[channel] || ''; }
 
 const STATUS_BADGE = {
   DRAFT: 'warn', PROPOSED: 'warn', READY: 'ok', SCHEDULED: 'blue', APPROVED: 'ok',
-  PUBLISHED: 'ok', BLOCKED: 'danger'
+  PUBLISHED: 'ok', BLOCKED: 'danger', COMPLETED: 'ok', POSTPONED: 'warn'
 };
 // NOT_APPLICABLE marks a record the owner has pulled out of the production
 // workflow entirely (e.g. cancelled, or handled manually outside the app).
 // It gets a friendlier label and, deliberately, no color class -- it reads
 // as "off" rather than as another stage of the pipeline.
-const STATUS_LABEL = { NOT_APPLICABLE: 'Não aplicável' };
-export function isIgnored(r) { return r.status === 'NOT_APPLICABLE'; }
+// CANCELLED (e.g. the closed PPL/Catarse campaigns) is likewise out of the flow.
+const STATUS_LABEL = { NOT_APPLICABLE: 'Não aplicável', CANCELLED: 'Cancelado', POSTPONED: 'Adiado' };
+export function isIgnored(r) { return r.status === 'NOT_APPLICABLE' || r.status === 'CANCELLED'; }
 export function statusBadge(status) {
   if (!status) return '';
   const cls = STATUS_BADGE[status] || '';

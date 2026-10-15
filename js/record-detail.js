@@ -13,6 +13,8 @@ const STATUS_OPTIONS = [
   ['PUBLISHED', 'Publicado'],
   ['BLOCKED', 'Bloqueado'],
   ['CONFIRMED', 'Confirmado'],
+  ['POSTPONED', 'Adiado'],
+  ['CANCELLED', 'Cancelado'],
   ['NOT_APPLICABLE', 'Não aplicável']
 ];
 const MEDIA_OPTIONS = [
@@ -91,7 +93,9 @@ const PROJECT_STATES = [
   ['planejado', 'PLANNED', 'Planejado'],
   ['proximo', 'UPCOMING', 'Próximo'],
   ['hoje', 'DUE_TODAY', 'Hoje'],
-  ['feito', 'COMPLETED', 'Feito']
+  ['feito', 'COMPLETED', 'Feito'],
+  ['adiado', 'POSTPONED', 'Adiado'],
+  ['cancelado', 'CANCELLED', 'Cancelado']
 ];
 function projectEditPanel(r) {
   const timeVal = isPlaceholderValue(r.time) ? '' : (r.time || '');

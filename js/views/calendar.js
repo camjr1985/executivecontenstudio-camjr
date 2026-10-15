@@ -15,6 +15,7 @@ export function renderCalendar(root, store, navigate, param) {
     { key: 'all', label: 'Todos' },
     { key: 'LinkedIn', label: '🖼️ LinkedIn' },
     { key: 'Instagram', label: '📱 Instagram' },
+    { key: 'YouTube', label: '▶️ YouTube' },
     { key: 'Live', label: '🎙️ Live' },
     { key: 'campaigns', label: '🎯 Campanhas' }
   ];
@@ -74,7 +75,7 @@ function monthGrid(year, month, records) {
     const events = records.filter(r => r.date === iso);
     cells += `<div class="cal-day${iso === todayIso ? ' today' : ''}"><span class="num">${d}</span>${events.map(e => {
       const na = isIgnored(e);
-      const cls = (e.channel === 'Live' ? 'c-live' : e.channel === 'Instagram' ? 'c-instagram' : 'c-linkedin') + (na ? ' ignored' : '');
+      const cls = (e.channel === 'Live' ? 'c-live' : e.channel === 'Instagram' ? 'c-instagram' : e.channel === 'YouTube' ? 'c-youtube' : 'c-linkedin') + (na ? ' ignored' : '');
       const timeLabel = isPlaceholderValue(e.time) ? '' : esc(e.time) + ' ';
       const title = displayTitle(e);
       const chIcon = channelIcon(e.channel);

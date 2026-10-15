@@ -14,11 +14,14 @@ const reviews = readJson('../data/monthly_reviews.json');
 test('calendar.json baseline is intact (content migration never wrote to it)', () => {
   assert.equal(calendar.row_count, calendar.records.length);
   assert.ok(calendar.records.length >= 79);
-  for (const r of calendar.records) assert.ok(['LinkedIn', 'Instagram', 'Live', 'Project'].includes(r.channel), `unexpected channel on ${r.content_id}`);
+  for (const r of calendar.records) assert.ok(['LinkedIn', 'Instagram', 'YouTube', 'Live', 'Project'].includes(r.channel), `unexpected channel on ${r.content_id}`);
 });
 
 test('content_library only covers EXISTING Post/Carousel/Article/News records, every one migrated', () => {
-  const expected = calendar.records.filter(r => r.existing_or_new === 'EXISTING' && ['Post', 'Carousel', 'Article', 'News'].includes(r.format));
+  // Keyed on the format the record had when it was migrated (source_record),
+  // since the owner may later re-format a record (e.g. POST-018 Post -> Poll).
+  const migratedFormat = r => (r.source_record && r.source_record.FORMAT) || r.format;
+  const expected = calendar.records.filter(r => r.existing_or_new === 'EXISTING' && ['Post', 'Carousel', 'Article', 'News'].includes(migratedFormat(r)));
   assert.equal(library.records.length, expected.length);
   const libraryIds = new Set(library.records.map(r => r.content_id));
   for (const r of expected) assert.ok(libraryIds.has(r.content_id), `missing library entry for ${r.content_id}`);
