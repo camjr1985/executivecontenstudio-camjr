@@ -7930,7 +7930,7 @@
       "publication_url": null,
       "published_at": null,
       "created_at": "2026-09-02T00:00:00Z",
-      "updated_at": "2026-11-25T17:37:25+00:00",
+      "updated_at": "2026-11-27T18:18:14+00:00",
       "revision": 2,
       "existing_or_new": "EXISTING",
       "decision": "KEEP",
@@ -7968,7 +7968,7 @@
         "BUFFER_ID": "NOT_APPLICABLE",
         "PUBLISHED_AT": "NOT_APPLICABLE"
       },
-      "copy_status": "PROMPT_READY"
+      "copy_status": "READY"
     },
     {
       "content_id": "IG-20261204-ST1",
@@ -8275,7 +8275,7 @@
     },
     {
       "content_id": "CAR-007",
-      "date": "2026-12-07",
+      "date": "2026-12-28",
       "time": "12:00",
       "timezone": "Europe/Lisbon",
       "channel": "LinkedIn",
@@ -8300,12 +8300,12 @@
       "publication_url": null,
       "published_at": null,
       "created_at": "2026-09-02T00:00:00Z",
-      "updated_at": "2026-11-25T17:37:25+00:00",
+      "updated_at": "2026-11-27T18:18:14+00:00",
       "revision": 2,
       "existing_or_new": "EXISTING",
       "decision": "KEEP",
-      "rationale": "Prompt no ficheiro PROMPTS_LinkedIn_dezembro.md (Artigos/2026-12_Planejamento-dezembro).",
-      "original_date": null,
+      "rationale": "Movido para 28/12 (Carlos aprovou em 27/11).",
+      "original_date": "2026-12-07",
       "campaign_date_dependency": "NO",
       "primary_objective": null,
       "source_record": {
@@ -8584,7 +8584,7 @@
       "publication_url": null,
       "published_at": null,
       "created_at": "2026-09-02T00:00:00Z",
-      "updated_at": "2026-11-25T17:37:25+00:00",
+      "updated_at": "2026-11-27T18:18:14+00:00",
       "revision": 2,
       "existing_or_new": "EXISTING",
       "decision": "KEEP",
@@ -8622,7 +8622,7 @@
         "BUFFER_ID": "NOT_APPLICABLE",
         "PUBLISHED_AT": "NOT_APPLICABLE"
       },
-      "copy_status": "PROMPT_READY"
+      "copy_status": "READY"
     },
     {
       "content_id": "IG-20261209-ST1",
@@ -8858,7 +8858,7 @@
       "publication_url": null,
       "published_at": null,
       "created_at": "2026-09-02T00:00:00Z",
-      "updated_at": "2026-11-25T17:37:25+00:00",
+      "updated_at": "2026-11-27T18:18:14+00:00",
       "revision": 2,
       "existing_or_new": "EXISTING",
       "decision": "REVISE",
@@ -8896,7 +8896,7 @@
         "BUFFER_ID": "NOT_APPLICABLE",
         "PUBLISHED_AT": "NOT_APPLICABLE"
       },
-      "copy_status": "PROMPT_READY"
+      "copy_status": "READY"
     },
     {
       "content_id": "YT-20261215-S01",
@@ -9376,11 +9376,11 @@
       "publication_url": null,
       "published_at": null,
       "created_at": "2026-09-02T00:00:00Z",
-      "updated_at": "2026-11-25T17:37:25+00:00",
+      "updated_at": "2026-11-27T18:18:14+00:00",
       "revision": 2,
       "existing_or_new": "NEW",
       "decision": "NEW",
-      "rationale": "Prompt no ficheiro PROMPTS_LinkedIn_dezembro.md (Artigos/2026-12_Planejamento-dezembro).",
+      "rationale": "Refazer: projetos de 2026 + ser pai de uma criança com TDAH (pedido do Carlos, 27/11).",
       "original_date": null,
       "campaign_date_dependency": "NO",
       "primary_objective": "Personal, single reflection post — pairs with REV-005 (12-31) without duplicating it",
@@ -9414,7 +9414,7 @@
         "BUFFER_ID": "NOT_APPLICABLE",
         "PUBLISHED_AT": "NOT_APPLICABLE"
       },
-      "copy_status": "PROMPT_READY"
+      "copy_status": "REWRITE"
     },
     {
       "content_id": "YT-20261222-S01",
@@ -9591,7 +9591,7 @@
       "publication_url": null,
       "published_at": null,
       "created_at": "2026-09-02T00:00:00Z",
-      "updated_at": "2026-11-25T17:37:25+00:00",
+      "updated_at": "2026-11-27T18:18:14+00:00",
       "revision": 2,
       "existing_or_new": "EXISTING",
       "decision": "KEEP",
@@ -9629,7 +9629,7 @@
         "BUFFER_ID": "NOT_APPLICABLE",
         "PUBLISHED_AT": "NOT_APPLICABLE"
       },
-      "copy_status": "PROMPT_READY"
+      "copy_status": "READY"
     },
     {
       "content_id": "YT-20261229-S01",
@@ -11722,7 +11722,7 @@
       "publication_url": null,
       "published_at": null,
       "created_at": "2026-11-25T17:37:25+00:00",
-      "updated_at": "2026-11-25T17:37:25+00:00",
+      "updated_at": "2026-11-27T18:18:14+00:00",
       "revision": 1,
       "existing_or_new": "NEW",
       "decision": "ADD",
@@ -11760,7 +11760,7 @@
         "BUFFER_ID": "NOT_APPLICABLE",
         "PUBLISHED_AT": "NOT_APPLICABLE"
       },
-      "copy_status": "PROMPT_READY",
+      "copy_status": "READY",
       "draft_text": null
     },
     {
@@ -12173,7 +12173,7 @@
     },
     {
       "content_id": "CAR-20261201",
-      "date": "2026-12-01",
+      "date": "2026-12-07",
       "time": "12:00",
       "timezone": "Europe/Lisbon",
       "channel": "LinkedIn",
@@ -12198,12 +12198,12 @@
       "publication_url": null,
       "published_at": null,
       "created_at": "2026-11-27T12:41:11+00:00",
-      "updated_at": "2026-11-27T12:41:11+00:00",
+      "updated_at": "2026-11-27T18:18:14+00:00",
       "revision": 1,
       "existing_or_new": "NEW",
       "decision": "ADD",
-      "rationale": "Carrossel semanal no LinkedIn; casa com o Short do dia.",
-      "original_date": null,
+      "rationale": "Carrossel às segundas (texto do ChatGPT, validado em 27/11).",
+      "original_date": "2026-12-01",
       "campaign_date_dependency": "NO",
       "primary_objective": null,
       "source_record": {
@@ -12236,7 +12236,7 @@
         "BUFFER_ID": "NOT_APPLICABLE",
         "PUBLISHED_AT": "NOT_APPLICABLE"
       },
-      "copy_status": "TO_WRITE",
+      "copy_status": "READY",
       "draft_text": null
     },
     {
@@ -12266,7 +12266,7 @@
       "publication_url": null,
       "published_at": null,
       "created_at": "2026-11-27T12:41:11+00:00",
-      "updated_at": "2026-11-27T12:41:11+00:00",
+      "updated_at": "2026-11-27T18:18:14+00:00",
       "revision": 1,
       "existing_or_new": "NEW",
       "decision": "ADD",
@@ -12304,7 +12304,7 @@
         "BUFFER_ID": "NOT_APPLICABLE",
         "PUBLISHED_AT": "NOT_APPLICABLE"
       },
-      "copy_status": "TO_WRITE",
+      "copy_status": "READY",
       "draft_text": null
     },
     {
@@ -12334,7 +12334,7 @@
       "publication_url": null,
       "published_at": null,
       "created_at": "2026-11-27T12:41:11+00:00",
-      "updated_at": "2026-11-27T12:41:11+00:00",
+      "updated_at": "2026-11-27T18:18:14+00:00",
       "revision": 1,
       "existing_or_new": "NEW",
       "decision": "ADD",
@@ -12372,7 +12372,7 @@
         "BUFFER_ID": "NOT_APPLICABLE",
         "PUBLISHED_AT": "NOT_APPLICABLE"
       },
-      "copy_status": "TO_WRITE",
+      "copy_status": "READY",
       "draft_text": null
     },
     {
